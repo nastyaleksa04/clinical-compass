@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2=".75" y2="1"><stop offset="0" stop-color="#6fe6dc"/><stop offset="1" stop-color="#10a49c"/></linearGradient><linearGradient id="d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#10a49c"/><stop offset="1" stop-color="#0b7f79"/></linearGradient><linearGradient id="l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#c9f3ef"/></linearGradient><linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<radialGradient id="face" cx=".34" cy=".28" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#f2f4f8"/><stop offset=".85" stop-color="#d6dbe4"/><stop offset="1" stop-color="#c4cad5"/></radialGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef0f4"/><stop offset="1" stop-color="#a7aebb"/></linearGradient>
+<filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.5"/></filter>
+<filter id="lift" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="1.2" dy="2.4" stdDeviation="1.6" flood-color="#0b7f79" flood-opacity=".35"/></filter></defs>
+<ellipse cx="63" cy="108" rx="34" ry="5.5" fill="#1f2a55" opacity=".14" filter="url(#blur)"/>
+<circle cx="63.5" cy="59.5" r="44" fill="url(#rim)"/>
+<circle cx="58" cy="56" r="44" fill="url(#face)"/>
+<circle cx="58" cy="56" r="40.5" fill="none" stroke="#fff" stroke-opacity=".95" stroke-width="1.6"/>
+<circle cx="58" cy="56" r="36.5" fill="none" stroke="#8d97a8" stroke-opacity=".16"/>
+<g transform="translate(28 25) scale(1.25)" filter="url(#lift)"><g transform="rotate(-45 24 24)"><path fill="url(#g)" d="M14 14.5h10v19H14a9.5 9.5 0 0 1 0-19z"/><path fill="url(#l)" d="M24 14.5h10a9.5 9.5 0 0 1 0 19H24z"/><path d="M11 20h8" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".75"/></g></g></svg>

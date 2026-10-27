@@ -1,0 +1,46 @@
+{
+ "age": 34,
+ "sex": "female",
+ "pregnancy_status": "no",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F41.1"
+ ],
+ "scales": {
+  "phq9": 8,
+  "gad7": 14
+ },
+ "medications": [
+  "сертралин"
+ ],
+ "therapy_factors": [
+  "serotonergic_drugs",
+  "driving"
+ ],
+ "text": {
+  "complaints": [
+   "беспокойство",
+   "засыпания"
+  ],
+  "history": [
+   "8 месяцев"
+  ],
+  "allergies": [
+   "пенициллин"
+  ],
+  "working_hypothesis": [
+   "F41.1"
+  ],
+  "symptom_duration": [
+   "8 месяцев"
+  ],
+  "current_medications": [
+   "сертралин",
+   "50 мг"
+  ],
+  "visit_reason": [
+   "тревоги"
+  ]
+ }
+}

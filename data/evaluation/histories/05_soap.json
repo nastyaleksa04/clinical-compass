@@ -1,0 +1,33 @@
+{
+ "age": 39,
+ "sex": "male",
+ "pregnancy_status": "not_applicable",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F41.0"
+ ],
+ "scales": {
+  "gad7": 11
+ },
+ "medications": [
+  "моклобемид"
+ ],
+ "therapy_factors": [
+  "maoi_recent"
+ ],
+ "text": {
+  "complaints": [
+   "приступы страха"
+  ],
+  "allergies": [
+   "Не отягощ"
+  ],
+  "working_hypothesis": [
+   "F41.0"
+  ],
+  "symptom_duration": [
+   "5 месяцев"
+  ]
+ }
+}

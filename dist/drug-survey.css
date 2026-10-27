@@ -1,0 +1,192 @@
+/* =====================  Анкета о препарате (drug-survey-ui.js)  ===================== */
+:root{--ds-rose:#e2537a;--ds-rose-soft:#fdeef3;--ds-mint:#5fcf9f;--ds-mint-soft:#e7f8f0}
+
+/* карточка на главной рядом с Нейроном */
+.ds-card{position:relative;display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:24px;background:radial-gradient(300px 180px at 100% 0%,rgba(226,83,122,.12),transparent 70%),#fff;border:2px solid #f6c7d5;box-shadow:0 14px 34px rgba(226,83,122,.12);min-width:0}
+.ds-card.is-done{border-color:var(--line);box-shadow:var(--shadow-xs)}
+.ds-card-badge{position:absolute;top:16px;right:16px;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:var(--ds-rose);color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.ds-card-badge .icon{width:13px;height:13px}
+.ds-card.is-done .ds-card-badge{background:var(--tile);color:var(--muted)}
+.ds-card-top{display:flex;align-items:center;gap:14px;padding-right:90px}
+.ds-card-top img{width:76px;height:64px;object-fit:contain;flex:0 0 76px}
+.ds-card-top .eyebrow{color:var(--ds-rose)}
+.ds-card h3{margin:2px 0 0;font-size:22px;line-height:1.2}
+.ds-card p{margin:0;font-size:14px;line-height:1.45;color:var(--ink-2)}
+.ds-card-tags{display:flex;flex-wrap:wrap;gap:6px}
+.ds-card-tags span{padding:4px 10px;border-radius:999px;background:var(--ds-rose-soft);color:#a3324f;font-size:12px;font-weight:600}
+.ds-card-points{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ds-card-points li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}
+.ds-card-points .icon{width:18px;height:18px;flex:0 0 18px;color:var(--ds-rose)}
+.ds-card-done{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--ds-mint-soft);color:#1f7a55}
+.ds-card-done .icon{width:20px;height:20px;flex:0 0 20px}
+.ds-card-done b{display:block;font-size:14px}
+.ds-card-done small{font-size:12px;color:var(--ink-2)}
+.ds-card .btn{align-self:stretch;justify-content:center;margin-top:auto}
+.ds-card .btn .icon{width:18px;height:18px}
+
+/* мастер анкеты */
+.ds-head .neuron-titled p{margin:2px 0 0}
+.ds-progress{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.ds-progress>div{flex:1;height:8px;border-radius:999px;background:var(--tile);overflow:hidden}
+.ds-progress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#a99ff0,var(--neuron,#7c6fd6));transition:width .35s ease}
+.ds-progress span{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
+.ds-step{display:flex;flex-direction:column;gap:16px}
+.ds-step h3{margin:0;font-size:24px}
+.ds-question{margin:-8px 0 0;font-size:16px;color:var(--ink-2)}
+.ds-intro{margin:0;font-size:15px;line-height:1.5;color:var(--ink-2)}
+.ds-private,.ds-safety{display:flex;gap:8px;align-items:flex-start;margin:0;padding:10px 12px;border-radius:12px;background:var(--tile);font-size:13px;color:var(--ink-2)}
+.ds-private .icon,.ds-safety .icon{width:16px;height:16px;flex:0 0 16px;margin-top:1px}
+.ds-block{display:flex;flex-direction:column;gap:10px}
+.ds-block>label{font-size:15px;font-weight:600}
+.ds-block>label small{font-weight:400;color:var(--muted);margin-left:6px}
+.ds-options{display:flex;flex-wrap:wrap;gap:8px}
+.ds-option{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line-strong);background:#fff;font:inherit;font-size:14px;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s}
+.ds-option:hover{border-color:var(--neuron,#7c6fd6)}
+.ds-option.is-on{border-color:var(--neuron,#7c6fd6);background:#eeedfd;color:#3f3592;font-weight:600}
+.ds-option .icon{width:15px;height:15px}
+.ds-status{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.ds-status-btn{min-height:54px;padding:10px 14px;border-radius:16px;border:1.5px solid var(--line-strong);background:#fff;font:inherit;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
+.ds-status-btn.is-on{border-color:var(--neuron,#7c6fd6);background:#eeedfd;color:#3f3592;box-shadow:0 0 0 3px rgba(124,111,214,.15)}
+.ds-other,.ds-step textarea{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line-strong);font:inherit;font-size:15px;background:#fff}
+.ds-flags .ds-option.is-on{border-color:var(--danger,#d64545);background:#fdecec;color:#a12a2a}
+.ds-consent{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:var(--tile);font-size:14px;line-height:1.4;cursor:pointer}
+.ds-consent input{width:18px;height:18px;margin-top:1px;flex:0 0 18px}
+.ds-nav{display:flex;justify-content:space-between;gap:10px;padding-top:6px;border-top:1px solid var(--line)}
+.ds-nav .btn{min-width:130px;justify-content:center}
+.ds-nav .btn-secondary .icon{transform:rotate(180deg);width:16px;height:16px}
+
+/* результат */
+.ds-result{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:20px;margin-bottom:14px;border-radius:24px;background:linear-gradient(160deg,#e9e7fe,#dcdbfb 60%,#d6f0e5 140%)}
+.ds-result h2{margin:0;font-size:28px;color:#3f3592}
+.ds-result p{margin:4px 0 0;max-width:520px;color:var(--ink-2)}
+.ds-result-img{width:150px;height:150px;object-fit:contain}
+.ds-changes{display:grid;gap:8px}
+.ds-change{display:grid;grid-template-columns:minmax(120px,180px) 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:var(--tile)}
+.ds-change b{font-size:14px}
+.ds-change>span{display:flex;flex-wrap:wrap;gap:6px}
+.ds-change i{font-style:normal;padding:3px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px}
+.ds-valence{font-style:normal;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.v-pleasant{background:var(--ds-mint-soft);color:#1f7a55}
+.v-neutral{background:#eef0f4;color:var(--ink-2)}
+.v-mild{background:var(--amber-soft,#fff5e0);color:var(--amber,#a15c00)}
+.v-severe{background:#fdecec;color:#a12a2a}
+.ds-note{margin:12px 0 0;padding:10px 14px;border-left:3px solid var(--neuron,#7c6fd6);border-radius:0 12px 12px 0;background:#f6f5ff;font-size:14px;line-height:1.45;color:var(--ink-2)}
+.ds-next{display:flex;align-items:center;gap:14px}
+.ds-next>span{width:44px;height:44px;flex:0 0 44px;border-radius:14px;display:grid;place-items:center;background:var(--teal-soft);color:var(--teal-dark)}
+.ds-next>div{flex:1;min-width:0}
+.ds-next b{display:block}
+.ds-next small{font-size:13px;color:var(--muted)}
+.ds-home{display:flex;margin:14px auto 0}
+
+/* врач */
+.ds-doctor-banner{display:flex;align-items:center;gap:16px;width:100%;margin:0 0 16px;padding:16px 20px;border-radius:20px;border:1px solid #f6c7d5;background:radial-gradient(300px 140px at 100% 0%,rgba(226,83,122,.1),transparent 70%),#fff;font:inherit;color:var(--ink);text-align:left;cursor:pointer;box-shadow:var(--shadow-xs)}
+.ds-doctor-banner img{width:72px;height:60px;object-fit:contain;flex:0 0 72px}
+.ds-doctor-banner>span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ds-doctor-banner .eyebrow{color:var(--ds-rose)}
+.ds-doctor-banner b{font-size:17px}
+.ds-doctor-banner small{font-size:13px;color:var(--muted)}
+.ds-doctor-banner>.icon{width:18px;height:18px;color:var(--muted)}
+.ds-reports{display:grid;gap:12px}
+.ds-report{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:16px;border:1px solid var(--line)}
+.ds-report.is-danger{border-color:#f2b8b8}
+.ds-report header{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.ds-report header span{font-size:13px;color:var(--muted)}
+.ds-report header em{margin-left:auto;font-style:normal}
+.ds-report .ds-note{margin:0}
+.ds-report footer{font-size:12px;color:var(--muted)}
+.ds-report footer:empty{display:none}
+.ds-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.ds-stats>div{padding:14px;border-radius:16px;background:#fff;border:1px solid var(--line);text-align:center}
+.ds-stats b{display:block;font-size:26px}
+.ds-stats span{font-size:12px;color:var(--muted)}
+.ds-stats .is-alert{background:#fdecec;border-color:#f2b8b8}
+.ds-stats .is-alert b{color:#a12a2a}
+.ds-bars{display:grid;gap:8px}
+.ds-bar{display:grid;grid-template-columns:minmax(120px,240px) 1fr 32px;gap:12px;align-items:center;font-size:14px}
+.ds-bar>div{height:12px;border-radius:999px;background:var(--tile);overflow:hidden}
+.ds-bar i{display:block;height:100%;border-radius:inherit;background:var(--neuron,#7c6fd6)}
+.ds-bar b{text-align:right}
+.ds-domains{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.ds-domain{padding:12px;border-radius:14px;background:var(--tile);display:flex;flex-direction:column;gap:8px}
+.ds-domain header{display:flex;justify-content:space-between;font-size:14px}
+.ds-domain header span{font-weight:700;color:#3f3592}
+.ds-domain small{font-size:12px;color:var(--muted)}
+.ds-split{display:flex;height:10px;border-radius:999px;background:#fff;overflow:hidden}
+.ds-split i,.ds-legend i{display:block;height:100%}
+.ds-split .pleasant,.ds-legend .pleasant{background:var(--ds-mint)}
+.ds-split .other,.ds-legend .other{background:#b9b2ee}
+.ds-split .bother,.ds-legend .bother{background:#f08a9c}
+.ds-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--muted)}
+.ds-legend span{display:inline-flex;align-items:center;gap:6px}
+.ds-legend i{width:12px;height:12px;border-radius:4px}
+.ds-quotes{display:grid;gap:8px}
+.ds-quotes .ds-note{margin:0}
+
+@media(max-width:620px){
+  .ds-card-top{padding-right:0;flex-direction:column;align-items:flex-start}
+  .ds-change{grid-template-columns:1fr}
+  .ds-bar{grid-template-columns:1fr 32px}
+  .ds-bar>div{grid-column:1/-1;grid-row:2}
+  .ds-next{flex-wrap:wrap}
+  .ds-next .btn{width:100%;justify-content:center}
+}
+
+/* опросник скрытых побочных эффектов: разделы, шкала 0–3, вопросы «Да / Нет» */
+.ds-section-head{display:flex;gap:14px;align-items:flex-start}
+.ds-section-head h3{margin:2px 0 0}
+.ds-letter{width:44px;height:44px;flex:0 0 44px;border-radius:14px;display:grid;place-items:center;background:#3f3592;color:#fff;font-size:20px;font-weight:800}
+.ds-section-head.is-danger .ds-letter{background:#c03838}
+.ds-hint{margin:6px 0 0;font-size:13px;font-style:italic;color:var(--muted);line-height:1.4}
+.ds-private{flex-wrap:wrap;align-items:center}
+.ds-private span{flex:1;min-width:160px}
+.ds-items{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ds-items-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:#f6f5ff;border-bottom:1px solid var(--line);font-size:14px}
+.ds-items-head .text-btn{font-size:13px;white-space:nowrap}
+.ds-item{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 14px}
+.ds-item+.ds-item{border-top:1px solid var(--line)}
+.ds-item.is-marked{background:#fbfaff}
+.ds-item.is-danger{background:#fdecec}
+.ds-item-n{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 4px;border-radius:8px;background:var(--tile);font-size:12px;font-weight:700;color:var(--muted)}
+.ds-item-text{font-size:14px;line-height:1.35}
+.ds-item-text small{display:block;margin-top:2px;font-size:12px;font-style:italic;color:var(--muted)}
+.ds-scale{display:grid;grid-template-columns:repeat(4,minmax(72px,1fr));gap:4px}
+.ds-level{min-height:36px;padding:4px 6px;border-radius:10px;border:1.5px solid var(--line-strong);background:#fff;font:inherit;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+.ds-level:hover{border-color:#7c6fd6}
+.ds-level.is-on.l0{background:#eef7f2;border-color:#5fcf9f;color:#1f7a55;font-weight:700}
+.ds-level.is-on.l1{background:#fff7e0;border-color:#e8b84a;color:#8a5a00;font-weight:700}
+.ds-level.is-on.l2{background:#ffe9d6;border-color:#f08a3c;color:#9a4200;font-weight:700}
+.ds-level.is-on.l3{background:#fdecec;border-color:#e05a5a;color:#a12a2a;font-weight:700}
+.ds-yesno{display:flex;gap:6px}
+.ds-yesno .ds-option{min-height:36px;padding:4px 16px}
+.ds-yesno .ds-option.is-danger.is-on{border-color:#e05a5a;background:#fdecec;color:#a12a2a}
+.ds-followup{display:grid;gap:12px;padding:14px;border-radius:16px;background:#f6f5ff}
+.ds-step textarea[data-ds-note]{min-height:64px}
+.ds-marked{display:grid;gap:10px}
+.ds-marked-section{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:14px;background:var(--tile)}
+.ds-marked-section header{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.ds-marked-section header b{font-size:14px;margin-right:auto}
+.ds-chip{padding:3px 9px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:11.5px;color:var(--ink-2)}
+.ds-marked-item{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:13.5px}
+.ds-marked-section .ds-note{margin:4px 0 0}
+.ds-level-pill{font-style:normal;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.ds-level-pill.l1{background:#fff7e0;color:#8a5a00}
+.ds-level-pill.l2{background:#ffe9d6;color:#9a4200}
+.ds-level-pill.l3{background:#fdecec;color:#a12a2a}
+.ds-followup-flags{display:flex;flex-wrap:wrap;gap:6px}
+.ds-followup-flags span{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:var(--amber-soft,#fff5e0);color:var(--amber,#a15c00);font-size:12.5px;font-weight:600}
+.ds-followup-flags .icon{width:14px;height:14px}
+.ds-bar{grid-template-columns:minmax(160px,1.3fr) 1fr 32px}
+.ds-bar span em{font-style:normal;font-size:11px;font-weight:700;color:var(--muted);margin-right:4px}
+.ds-bar>div{position:relative}
+.ds-bar i.strong{position:absolute;left:0;top:0;background:#f08a9c}
+.ds-split .mild,.ds-legend .mild{background:#f6d36b}
+@media(max-width:760px){
+  .ds-item{grid-template-columns:28px minmax(0,1fr)}
+  .ds-scale,.ds-yesno{grid-column:1/-1}
+  .ds-scale{grid-template-columns:repeat(4,1fr)}
+}
+
+.neuron-task.is-drug{border:1.5px solid #f6c7d5}
+.neuron-task.is-drug .neuron-tick{border-color:#f08a9c}
+@media(min-width:1100px){.neuron-todo.is-compact .neuron-task.is-drug{display:none}}
+@media(max-width:1099px){.ds-card-points{display:none}}

@@ -1,0 +1,35 @@
+{
+ "age": 28,
+ "sex": "female",
+ "pregnancy_status": "yes",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F41.1"
+ ],
+ "scales": {
+  "gad7": 16
+ },
+ "medications": [],
+ "therapy_factors": [
+  "pregnancy"
+ ],
+ "text": {
+  "complaints": [
+   "Тревога",
+   "сердцебиение"
+  ],
+  "history": [
+   "4 месяца"
+  ],
+  "allergies": [
+   "Не отягощ"
+  ],
+  "working_hypothesis": [
+   "F41.1"
+  ],
+  "symptom_duration": [
+   "4 месяца"
+  ]
+ }
+}

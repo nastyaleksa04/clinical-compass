@@ -1,0 +1,124 @@
+/* =====================  Нейрон (neuron-ui.js)  ===================== */
+:root{--neuron:#7c6fd6;--neuron-ink:#3f3592;--neuron-soft:#eeedfd;--neuron-bg:#dcdbfb;--neuron-mint:#bfe9d4;--neuron-sun:#f6d36b}
+
+.neuron-img{width:132px;height:132px;flex:0 0 132px;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(84,72,190,.18));transition:transform .4s cubic-bezier(.2,1.4,.4,1)}
+.neuron-avatar{width:44px;height:44px;flex:0 0 44px;object-fit:contain;border-radius:14px;background:var(--neuron-soft)}
+.neuron-avatar.is-large{width:64px;height:64px;flex-basis:64px;border-radius:20px}
+.neuron-titled{display:flex;align-items:center;gap:12px;min-width:0}
+
+/* карточка на главной */
+.neuron-card{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr;gap:14px;padding:18px;margin:14px 0 16px;border-radius:24px;background:radial-gradient(260px 200px at 12% 20%,rgba(255,255,255,.7),transparent 70%),linear-gradient(135deg,#e7e5fd 0%,var(--neuron-bg) 55%,#d6f0e5 130%);border:1px solid #d3d0f6;box-shadow:0 14px 34px rgba(84,72,190,.14)}
+.neuron-card.is-loading{grid-template-columns:auto 1fr;align-items:center;opacity:.75}
+.neuron-card-main{display:flex;align-items:center;gap:14px;padding:0;border:0;background:none;font:inherit;color:var(--ink);text-align:left;cursor:pointer}
+.neuron-card-main:hover .neuron-img{transform:rotate(-6deg) scale(1.05)}
+.neuron-card-text{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.neuron-card-text .eyebrow,.neuron-hero .eyebrow{color:var(--neuron-ink)}
+.neuron-card-text b{font-size:20px;line-height:1.2;color:var(--neuron-ink)}
+.neuron-card-text small{font-size:13px;line-height:1.4;color:var(--ink-2)}
+.neuron-card-side{display:flex;flex-direction:column;gap:10px;min-width:0}
+.neuron-side-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--neuron-ink)}
+.neuron-ask{align-self:flex-start;background:#fff;border-color:#d3d0f6;color:var(--neuron-ink)}
+.neuron-ask .icon{color:var(--neuron)}
+
+.neuron-meter{height:10px;margin-top:6px;border-radius:999px;background:rgba(255,255,255,.75);box-shadow:inset 0 0 0 1px rgba(124,111,214,.18);overflow:hidden}
+.neuron-meter i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#a99ff0,var(--neuron) 60%,#5fcf9f);transition:width .6s ease}
+.neuron-stats{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-2)}
+.neuron-stats b{color:var(--neuron-ink)}
+
+.mood-sad .neuron-meter i{background:linear-gradient(90deg,#9aa0c9,#7d84b8)}
+.mood-sleepy .neuron-meter i{background:linear-gradient(90deg,#c3bff0,#a99ff0)}
+.neuron-card.mood-sad{background:linear-gradient(135deg,#e6e7f5,#d7d9ef)}
+.neuron-card.mood-excited{box-shadow:0 16px 40px rgba(246,196,83,.25),0 14px 34px rgba(84,72,190,.14)}
+
+/* задачи «что порадует» */
+.neuron-todo{display:grid;gap:8px}
+.neuron-task{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;font:inherit;color:var(--ink);text-align:left;cursor:pointer;transition:border-color .2s,transform .2s}
+.neuron-task:hover:not(:disabled){border-color:var(--neuron);transform:translateY(-1px)}
+.neuron-task b{display:block;font-size:14px;font-weight:600}
+.neuron-task small{display:block;font-size:12px;color:var(--muted)}
+.neuron-task>.icon{width:16px;height:16px;color:var(--muted)}
+.neuron-tick{width:26px;height:26px;border-radius:50%;border:2px dashed #b9b2ee;display:grid;place-items:center}
+.neuron-tick .icon{width:15px;height:15px}
+.neuron-task.is-done{cursor:default;background:var(--tile)}
+.neuron-task.is-done .neuron-tick{border:0;background:#5fcf9f;color:#fff}
+.neuron-task.is-done b{color:var(--muted)}
+.neuron-todo.is-compact .neuron-task{background:rgba(255,255,255,.85);border-color:transparent}
+.neuron-done{display:flex;align-items:center;gap:8px;margin:0;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.8);font-size:14px;font-weight:600;color:#1f7a55}
+.neuron-done .icon{width:18px;height:18px}
+
+/* экран Нейрона */
+.neuron-hero{display:grid;grid-template-columns:1fr;justify-items:center;gap:10px;padding:22px;margin-bottom:16px;border-radius:26px;text-align:center;background:radial-gradient(300px 220px at 50% 25%,rgba(255,255,255,.75),transparent 70%),linear-gradient(160deg,#e9e7fe,var(--neuron-bg) 60%,#d6f0e5 140%);border:1px solid #d3d0f6}
+.neuron-hero>div{display:flex;flex-direction:column;gap:6px;width:100%;max-width:520px}
+.neuron-hero h3{margin:0;font-size:24px;color:var(--neuron-ink)}
+.neuron-hero p{margin:0;color:var(--ink-2);line-height:1.45}
+.neuron-hero .neuron-stats{justify-content:center;margin:4px 0 8px}
+.neuron-hero .btn{align-self:center}
+.neuron-hero-img{width:210px;height:210px;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(84,72,190,.2));animation:neuron-float 5s ease-in-out infinite}
+.neuron-hero.mood-sleepy .neuron-hero-img,.neuron-hero.mood-sad .neuron-hero-img{animation-duration:8s}
+@keyframes neuron-float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(-3deg)}}
+@media(prefers-reduced-motion:reduce){.neuron-hero-img{animation:none}}
+.neuron-loading{text-align:center;color:var(--muted)}
+
+.neuron-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.neuron-day{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border-radius:14px;background:var(--tile)}
+.neuron-day.is-active{background:var(--neuron-soft)}
+.neuron-day span{font-size:12px;font-weight:600;color:var(--muted);text-transform:capitalize}
+.nd{display:inline-block;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 2px var(--line-strong)}
+.nd.on{box-shadow:none}
+.nd-report.on{background:var(--neuron)}
+.nd-dose.on{background:#5fcf9f}
+.nd-dose.half{background:linear-gradient(90deg,#5fcf9f 50%,#fff 50%);box-shadow:inset 0 0 0 2px #5fcf9f}
+.nd-scale.on{background:var(--neuron-sun)}
+.nd-drug.on{background:#f08a9c}
+.neuron-row{display:grid;gap:16px;margin:14px 0 16px;min-width:0}
+.neuron-row>.neuron-card{margin:0}
+.neuron-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12px;color:var(--muted)}
+.neuron-legend span{display:inline-flex;align-items:center;gap:6px}
+
+.neuron-moods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.neuron-mood{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:16px;background:var(--tile);text-align:center;border:2px solid transparent}
+.neuron-mood b{font-size:13px;font-weight:600;line-height:1.25}
+.neuron-mood small{font-size:11px;font-weight:700;color:var(--neuron-ink);text-transform:uppercase;letter-spacing:.06em}
+.neuron-mood-img{width:76px;height:76px;object-fit:contain}
+.neuron-mood.is-current{background:var(--neuron-soft);border-color:var(--neuron)}
+.neuron-rules ul{margin:0;padding-left:18px;color:var(--ink-2);line-height:1.5}
+.neuron-rules li+li{margin-top:6px}
+
+/* всплывающая реакция */
+.neuron-chip{position:fixed;left:50%;bottom:150px;z-index:60;display:flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;border-radius:999px;background:#fff;border:1px solid #d3d0f6;box-shadow:0 16px 36px rgba(84,72,190,.25);opacity:0;pointer-events:none;transform:translate(-50%,16px) scale(.96);transition:opacity .25s,transform .35s cubic-bezier(.2,1.4,.4,1)}
+.neuron-chip.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.neuron-chip-img{width:48px;height:48px;object-fit:contain;border-radius:50%;background:var(--neuron-soft)}
+.neuron-chip b{display:block;font-size:15px;color:var(--neuron-ink)}
+.neuron-chip small{display:block;font-size:12px;color:var(--muted);white-space:nowrap}
+
+/* чат с Нейроном */
+.rag-orb.is-neuron{background:none;box-shadow:none;width:auto;height:auto}
+.pa-answer-icon.is-neuron{background:none;box-shadow:none;padding:0}
+.pa-banner-icon{background:var(--neuron-soft)}
+
+/* врач */
+.neuron-doctor-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.neuron-doctor-stats>div{padding:12px;border-radius:14px;background:var(--neuron-soft);text-align:center}
+.neuron-doctor-stats b{display:block;font-size:22px;color:var(--neuron-ink)}
+.neuron-doctor-stats span{font-size:12px;color:var(--muted)}
+.neuron-doctor-stats .is-alert{background:var(--amber-soft)}
+.neuron-doctor-stats .is-alert b{color:var(--amber)}
+.neuron-note{display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;font-size:12px;color:var(--muted)}
+.neuron-note .icon{width:16px;height:16px;flex:0 0 16px}
+
+@media(min-width:760px){
+  .neuron-card{grid-template-columns:1.25fr 1fr;align-items:center;padding:20px 22px}
+  .neuron-hero{grid-template-columns:auto 1fr;justify-items:start;text-align:left;padding:26px 30px}
+  .neuron-hero .neuron-stats{justify-content:flex-start}
+  .neuron-hero .btn{align-self:flex-start}
+  .neuron-moods{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .neuron-chip{bottom:84px}
+}
+@media(min-width:1100px){
+  .neuron-row{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+  .neuron-row>.neuron-card{grid-template-columns:1fr;align-content:start}
+}
+@media(max-width:420px){
+  .neuron-img{width:96px;height:96px;flex-basis:96px}
+  .neuron-card-text b{font-size:18px}
+}

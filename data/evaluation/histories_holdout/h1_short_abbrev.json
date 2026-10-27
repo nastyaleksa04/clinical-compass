@@ -1,0 +1,31 @@
+{
+ "age": 47,
+ "sex": "male",
+ "pregnancy_status": "not_applicable",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F41.1"
+ ],
+ "scales": {
+  "gad7": 15,
+  "phq9": 9
+ },
+ "medications": [
+  "эсциталопрам",
+  "зопиклон"
+ ],
+ "therapy_factors": [
+  "serotonergic_drugs",
+  "sedatives"
+ ],
+ "text": {
+  "working_hypothesis": [
+   "F41.1"
+  ],
+  "current_medications": [
+   "эсциталопрам",
+   "зопиклон"
+  ]
+ }
+}

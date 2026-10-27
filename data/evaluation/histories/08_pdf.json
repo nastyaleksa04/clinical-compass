@@ -1,0 +1,41 @@
+{
+ "age": 23,
+ "sex": "male",
+ "pregnancy_status": "not_applicable",
+ "self_harm_concern": false,
+ "psychosis_signs": true,
+ "icd_codes": [
+  "F41.1"
+ ],
+ "scales": {
+  "gad7": 18,
+  "phq9": 12
+ },
+ "medications": [
+  "эсциталопрам",
+  "бупропион"
+ ],
+ "therapy_factors": [
+  "serotonergic_drugs",
+  "cyp2d6_inhibitors"
+ ],
+ "text": {
+  "complaints": [
+   "тревога",
+   "бессонница"
+  ],
+  "allergies": [
+   "сульфаниламид"
+  ],
+  "working_hypothesis": [
+   "F41.1"
+  ],
+  "symptom_duration": [
+   "3 недели"
+  ],
+  "current_medications": [
+   "эсциталопрам",
+   "бупропион"
+  ]
+ }
+}

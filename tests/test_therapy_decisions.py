@@ -1,3 +1,7 @@
+import os
+
+os.environ.setdefault("CLINICAL_COMPASS_DEMO_HEADERS", "1")
+
 import tempfile
 import unittest
 from pathlib import Path

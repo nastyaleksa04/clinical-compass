@@ -1,0 +1,31 @@
+{
+ "age": 58,
+ "sex": "female",
+ "pregnancy_status": "unknown",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F33.2"
+ ],
+ "scales": {},
+ "medications": [
+  "флувоксамин",
+  "тразодон",
+  "метформин"
+ ],
+ "therapy_factors": [
+  "serotonergic_drugs",
+  "egfr_below_60"
+ ],
+ "text": {
+  "working_hypothesis": [
+   "F33.2"
+  ],
+  "allergies": [
+   "Не отягощ"
+  ],
+  "symptom_duration": [
+   "3 месяцев"
+  ]
+ }
+}

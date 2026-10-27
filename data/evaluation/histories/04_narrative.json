@@ -1,0 +1,32 @@
+{
+ "age": 52,
+ "sex": "female",
+ "pregnancy_status": "no",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F41.2"
+ ],
+ "scales": {},
+ "medications": [
+  "пароксетин"
+ ],
+ "therapy_factors": [
+  "epilepsy_or_brain_disease",
+  "lactose_disorder",
+  "serotonergic_drugs",
+  "cyp2d6_inhibitors"
+ ],
+ "text": {
+  "symptom_duration": [
+   "6 месяцев"
+  ],
+  "current_medications": [
+   "пароксетин",
+   "20 мг"
+  ],
+  "working_hypothesis": [
+   "F41.2"
+  ]
+ }
+}

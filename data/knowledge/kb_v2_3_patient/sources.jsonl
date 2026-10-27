@@ -1,0 +1,4 @@
+{"source_id": "patient_app_policy", "title": "Правила пациентского кабинета «Клинический компас»", "organization": "Clinical Compass", "version": "0.16", "url": "", "source_type": "internal_product_policy", "status": "prototype"}
+{"source_id": "patient_emergency_policy", "title": "Экстренная маршрутизация пациентского кабинета", "organization": "Clinical Compass", "version": "1.0", "url": "", "source_type": "internal_safety_policy", "status": "prototype"}
+{"source_id": "patient_phq9", "title": "PHQ-9: информация для пациента", "organization": "Clinical Compass", "version": "2026-10-21", "url": "https://doi.org/10.17759/cpse.2023120406", "source_type": "validated_scale", "status": "active"}
+{"source_id": "patient_gad7", "title": "GAD-7: информация для пациента", "organization": "Clinical Compass", "version": "2026-10-21", "url": "https://doi.org/10.17759/cpp.2023310402", "source_type": "validated_scale", "status": "active"}

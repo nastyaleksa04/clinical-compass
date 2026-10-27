@@ -1,0 +1,193 @@
+{
+  "bundle": "/mnt/d/datacon_2026/clinical-compass/data/knowledge/kb_v2.zip",
+  "counts": {
+    "sources.jsonl": 27,
+    "entities/chunks.jsonl": 320,
+    "entities/conditions.jsonl": 81,
+    "entities/eval_cases.jsonl": 20,
+    "entities/medication_cards.jsonl": 25,
+    "entities/medications.jsonl": 60,
+    "entities/patient_model.jsonl": 28,
+    "entities/safety_rules.jsonl": 72,
+    "entities/scales.jsonl": 32
+  },
+  "summary": {
+    "issues": 13,
+    "errors": 0,
+    "blockers": 800,
+    "warnings": 371
+  },
+  "readiness": {
+    "doctor_search_experimental": true,
+    "patient_rag": false,
+    "clinical_automation": false
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "tiny_chunk",
+      "message": "Chunks shorter than 80 characters need merging or exclusion",
+      "count": 239,
+      "samples": [
+        "ru_cr_depression_adult_301_3_D006__001",
+        "ru_grls_agomelatine_ЛП000528РГRU_adverse__001",
+        "ru_grls_agomelatine_ЛП000528РГRU_indications__001",
+        "ru_grls_agomelatine_ЛП000528РГRU_contraindications__001",
+        "ru_grls_agomelatine_ЛП000528РГRU_special__001"
+      ]
+    },
+    {
+      "severity": "blocker",
+      "code": "unapproved_chunks",
+      "message": "Chunks are not approved for clinical RAG output",
+      "count": 320,
+      "samples": [
+        "ru_cr_gad_adult_457_3_A001__001",
+        "ru_cr_gad_adult_457_3_A002__001",
+        "ru_cr_gad_adult_457_3_A003__001",
+        "ru_cr_gad_adult_457_3_A004__001",
+        "ru_cr_gad_adult_457_3_A005__001"
+      ]
+    },
+    {
+      "severity": "blocker",
+      "code": "missing_audience",
+      "message": "Chunks have no doctor/patient access scope",
+      "count": 320,
+      "samples": [
+        "ru_cr_gad_adult_457_3_A001__001",
+        "ru_cr_gad_adult_457_3_A002__001",
+        "ru_cr_gad_adult_457_3_A003__001",
+        "ru_cr_gad_adult_457_3_A004__001",
+        "ru_cr_gad_adult_457_3_A005__001"
+      ]
+    },
+    {
+      "severity": "warning",
+      "code": "missing_raw_source",
+      "message": "Source registry points to raw files absent from the bundle",
+      "count": 2,
+      "samples": [
+        "ru_cr_gad_adult_457_3",
+        "ru_cr_depression_adult_301_3"
+      ]
+    },
+    {
+      "severity": "warning",
+      "code": "unknown_license",
+      "message": "Source reuse license is missing or unknown",
+      "count": 27,
+      "samples": [
+        "ru_cr_gad_adult_457_3",
+        "ru_cr_depression_adult_301_3",
+        "ru_grls_agomelatine",
+        "ru_grls_alimemazine",
+        "ru_grls_bromdihydrochlorphenylbenzodiazepine"
+      ]
+    },
+    {
+      "severity": "warning",
+      "code": "unchecked_records",
+      "message": "Unchecked condition facts",
+      "count": 48,
+      "samples": [
+        "ru_cr_depression_adult_301_3__D001",
+        "ru_cr_depression_adult_301_3__D002",
+        "ru_cr_depression_adult_301_3__D003",
+        "ru_cr_depression_adult_301_3__D004",
+        "ru_cr_depression_adult_301_3__D005"
+      ]
+    },
+    {
+      "severity": "warning",
+      "code": "unchecked_records",
+      "message": "Unchecked medication rows",
+      "count": 30,
+      "samples": [
+        "ru_cr_depression_adult_301_3__M001",
+        "ru_cr_depression_adult_301_3__M002",
+        "ru_cr_depression_adult_301_3__M003",
+        "ru_cr_depression_adult_301_3__M004",
+        "ru_cr_depression_adult_301_3__M005"
+      ]
+    },
+    {
+      "severity": "warning",
+      "code": "unchecked_records",
+      "message": "Unchecked medication cards",
+      "count": 10,
+      "samples": [
+        "med:escitalopram",
+        "med:maritupirdine",
+        "med:vortioxetine",
+        "med:mirtazapine",
+        "med:amitriptyline"
+      ]
+    },
+    {
+      "severity": "blocker",
+      "code": "unchecked_records",
+      "message": "Unchecked safety rules",
+      "count": 51,
+      "samples": [
+        "safety:S023",
+        "safety:S024",
+        "safety:S025",
+        "safety:S026",
+        "safety:S027"
+      ]
+    },
+    {
+      "severity": "warning",
+      "code": "unchecked_records",
+      "message": "Unchecked scale rows",
+      "count": 15,
+      "samples": [
+        "scale:hdrs17_ru__01",
+        "scale:hdrs17_ru__02",
+        "scale:hdrs17_ru__03",
+        "scale:hdrs17_ru__04",
+        "scale:hdrs17_ru__05"
+      ]
+    },
+    {
+      "severity": "blocker",
+      "code": "unchecked_records",
+      "message": "Unchecked evaluation cases",
+      "count": 20,
+      "samples": [
+        "eval:gad__avi_001",
+        "eval:gad__avi_002",
+        "eval:gad__avi_003",
+        "eval:gad__avi_004",
+        "eval:gad__avi_005"
+      ]
+    },
+    {
+      "severity": "blocker",
+      "code": "untested_safety_rules",
+      "message": "Safety rules have neither positive nor negative tests",
+      "count": 72,
+      "samples": [
+        "safety:S001",
+        "safety:S002",
+        "safety:S003",
+        "safety:S004",
+        "safety:S005"
+      ]
+    },
+    {
+      "severity": "blocker",
+      "code": "missing_medication_label",
+      "message": "Medication rows have no verified label card",
+      "count": 17,
+      "samples": [
+        "med:alprazolam",
+        "med:amisulpride",
+        "med:brexpiprazole",
+        "med:buspirone",
+        "med:carbamazepine"
+      ]
+    }
+  ]
+}

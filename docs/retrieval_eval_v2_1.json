@@ -1,0 +1,1991 @@
+{
+  "limit": 10,
+  "cases": 20,
+  "fully_passed": 2,
+  "case_pass_rate": 0.1,
+  "expected_items": 50,
+  "matched_items": 15,
+  "micro_recall": 0.3,
+  "results": [
+    {
+      "case_id": "eval:gad__avi_001",
+      "task_type": "rag_qa",
+      "query": "Вопрос врача: «Когда и в какой дозе рекомендован Авиандр (маритупирдин) при ГТР?»",
+      "expected": [
+        "ru_cr_gad_adult_457_3",
+        "ru_cr_gad_adult_457_3__M016",
+        "ru_grls_maritupirdine_ЛП002445РГRU"
+      ],
+      "matches": {
+        "ru_cr_gad_adult_457_3": 3,
+        "ru_cr_gad_adult_457_3__M016": 3,
+        "ru_grls_maritupirdine_ЛП002445РГRU": null
+      },
+      "matched": 2,
+      "expected_count": 3,
+      "recall": 0.6667,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:fluoxetine__safe_001",
+          "source_id": "ru_grls_fluoxetine",
+          "entity_ids": [
+            "card:fluoxetine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "safety:S014__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S014"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__A022__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A022"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "scale:gad7_ru__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "scale:gad7_ru"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__A027__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A027"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__M017__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M017"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__M013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M013"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__A030__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A030"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_002",
+      "task_type": "safety",
+      "query": "Пациент 48 лет, ГТР, рефрактерность к двум линиям. В анамнезе эпилепсия (контролируемая, последний приступ 2 года назад). Врач планирует Авиандр 40 мг/сут.",
+      "expected": [
+        "ru_grls_maritupirdine_ЛП002445РГRU",
+        "ru_cr_gad_adult_457_3"
+      ],
+      "matches": {
+        "ru_grls_maritupirdine_ЛП002445РГRU": null,
+        "ru_cr_gad_adult_457_3": 1
+      },
+      "matched": 1,
+      "expected_count": 2,
+      "recall": 0.5,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "card:bromdihydrochlorphenylbenzodiazepine__safe_001",
+          "source_id": "ru_grls_bromdihydrochlorphenylbenzodiazepine",
+          "entity_ids": [
+            "card:bromdihydrochlorphenylbenzodiazepine"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "safety:S009__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S009"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A016"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_003",
+      "task_type": "safety",
+      "query": "Пациентка 55 лет, ГТР, рефрактерность. СКФ 45 мл/мин (хроническая болезнь почек 3 ст.). Врач планирует Авиандр 40 мг/сут.",
+      "expected": [
+        "ru_grls_maritupirdine_ЛП002445РГRU"
+      ],
+      "matches": {
+        "ru_grls_maritupirdine_ЛП002445РГRU": null
+      },
+      "matched": 0,
+      "expected_count": 1,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A002__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A002"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:paroxetine__safe_001",
+          "source_id": "ru_grls_paroxetine",
+          "entity_ids": [
+            "card:paroxetine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "safety:S009__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S009"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_004",
+      "task_type": "safety",
+      "query": "Пациент 50 лет, ГТР. В анамнезе стеатогепатит, АЛТ/АСТ повышены в 2 раза. Врач планирует Авиандр.",
+      "expected": [
+        "ru_grls_maritupirdine_ЛП002445РГRU"
+      ],
+      "matches": {
+        "ru_grls_maritupirdine_ЛП002445РГRU": null
+      },
+      "matched": 0,
+      "expected_count": 1,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "safety:S009__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S009"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__A016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A016"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__A033__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A033"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__A007__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A007"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "safety:S007__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S007"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "safety:S019__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "safety:S019"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_005",
+      "task_type": "safety",
+      "query": "Пациентка 40 лет, ГТР. Принимала моклобемид, последняя доза 10 дней назад. Врач планирует перевод на Авиандр 40 мг/сут.",
+      "expected": [
+        "ru_grls_maritupirdine_ЛП002445РГRU"
+      ],
+      "matches": {
+        "ru_grls_maritupirdine_ЛП002445РГRU": null
+      },
+      "matched": 0,
+      "expected_count": 1,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "card:bromdihydrochlorphenylbenzodiazepine__safe_001",
+          "source_id": "ru_grls_bromdihydrochlorphenylbenzodiazepine",
+          "entity_ids": [
+            "card:bromdihydrochlorphenylbenzodiazepine"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__M002__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M002"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:paroxetine__safe_001",
+          "source_id": "ru_grls_paroxetine",
+          "entity_ids": [
+            "card:paroxetine"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_006",
+      "task_type": "safety",
+      "query": "Пациентка 29 лет, ГТР, планирует беременность / на ранних сроках. Рефрактерность к СИОЗС. Врач рассматривает Авиандр.",
+      "expected": [
+        "ru_grls_maritupirdine_ЛП002445РГRU"
+      ],
+      "matches": {
+        "ru_grls_maritupirdine_ЛП002445РГRU": null
+      },
+      "matched": 0,
+      "expected_count": 1,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "card:paroxetine__safe_001",
+          "source_id": "ru_grls_paroxetine",
+          "entity_ids": [
+            "card:paroxetine"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:duloxetine__safe_001",
+          "source_id": "ru_grls_duloxetine",
+          "entity_ids": [
+            "card:duloxetine"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "safety:S009__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S009"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:venlafaxine__safe_001",
+          "source_id": "ru_grls_venlafaxine",
+          "entity_ids": [
+            "card:venlafaxine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__M028__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M028"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_007",
+      "task_type": "report",
+      "query": "Пациент 44 года, ГТР. После неэффективности двух линий назначен Авиандр 40 мг/сут. HARS: исходно 28, через 4 недели — 18, через 8 недель — 9, через 12 недель — 6. НЯ нет.",
+      "expected": [
+        "ru_cr_gad_adult_457_3",
+        "scale:hars_ru",
+        "ru_cr_gad_adult_457_3__A022",
+        "ru_cr_gad_adult_457_3__A023"
+      ],
+      "matches": {
+        "ru_cr_gad_adult_457_3": 2,
+        "scale:hars_ru": 5,
+        "ru_cr_gad_adult_457_3__A022": 2,
+        "ru_cr_gad_adult_457_3__A023": 2
+      },
+      "matched": 4,
+      "expected_count": 4,
+      "recall": 1.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__A022__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A022"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "scale:hars_ru__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "scale:hars_ru"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "safety:S001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S001"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__M014__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M014"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A015__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A015"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "safety:S014__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S014"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_008",
+      "task_type": "safety",
+      "query": "Пациент 38 лет, ГТР, рефрактерность к пароксетину и венлафаксину. Сопутствующих заболеваний нет (почки, печень, эпилепсия, ССЗ в норме), ИМАО не принимал, не беременна. Врач планирует Авиандр 40 мг/сут.",
+      "expected": [
+        "ru_cr_gad_adult_457_3",
+        "ru_grls_maritupirdine_ЛП002445РГRU"
+      ],
+      "matches": {
+        "ru_cr_gad_adult_457_3": 2,
+        "ru_grls_maritupirdine_ЛП002445РГRU": null
+      },
+      "matched": 1,
+      "expected_count": 2,
+      "recall": 0.5,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:venlafaxine__safe_001",
+          "source_id": "ru_grls_venlafaxine",
+          "entity_ids": [
+            "card:venlafaxine"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "card:paroxetine__safe_001",
+          "source_id": "ru_grls_paroxetine",
+          "entity_ids": [
+            "card:paroxetine"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:fluoxetine__safe_001",
+          "source_id": "ru_grls_fluoxetine",
+          "entity_ids": [
+            "card:fluoxetine"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:olanzapine__safe_001",
+          "source_id": "ru_grls_olanzapine",
+          "entity_ids": [
+            "card:olanzapine"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_009",
+      "task_type": "rag_qa",
+      "query": "Вопрос врача: «Можно ли сразу назначить Авиандр пациенту с впервые выявленным ГТР средней тяжести?»",
+      "expected": [
+        "ru_cr_gad_adult_457_3",
+        "ru_cr_gad_adult_457_3__A013",
+        "ru_cr_gad_adult_457_3__M016"
+      ],
+      "matches": {
+        "ru_cr_gad_adult_457_3": 3,
+        "ru_cr_gad_adult_457_3__A013": 3,
+        "ru_cr_gad_adult_457_3__M016": 3
+      },
+      "matched": 3,
+      "expected_count": 3,
+      "recall": 1.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:venlafaxine__safe_001",
+          "source_id": "ru_grls_venlafaxine",
+          "entity_ids": [
+            "card:venlafaxine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__A016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A016"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__A017__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A017"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "scale:gad7_ru__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "scale:gad7_ru"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__A027__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A027"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "safety:S003__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S003"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A028__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A028"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "safety:S006__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S006"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:gad__avi_010",
+      "task_type": "safety",
+      "query": "Пациент 42 года, ГТР, на Авиандре 40 мг. Эффект недостаточный. Врач планирует повысить дозу до 60 мг/сут.",
+      "expected": [
+        "ru_grls_maritupirdine_ЛП002445РГRU",
+        "ru_cr_gad_adult_457_3__M016"
+      ],
+      "matches": {
+        "ru_grls_maritupirdine_ЛП002445РГRU": null,
+        "ru_cr_gad_adult_457_3__M016": 1
+      },
+      "matched": 1,
+      "expected_count": 2,
+      "recall": 0.5,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__M013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M013"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__A018__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A018"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__M017__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M017"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__M022__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M022"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:fluoxetine__safe_001",
+          "source_id": "ru_grls_fluoxetine",
+          "entity_ids": [
+            "card:fluoxetine"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__001",
+      "task_type": "rag_qa",
+      "query": "Вопрос врача: «Какие антидепрессанты рекомендованы пациенту с лёгким депрессивным эпизодом?»",
+      "expected": [
+        "ru_cr_depression_adult_301_3",
+        "ru_cr_depression_adult_301_3__D018"
+      ],
+      "matches": {
+        "ru_cr_depression_adult_301_3": null,
+        "ru_cr_depression_adult_301_3__D018": null
+      },
+      "matched": 0,
+      "expected_count": 2,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__A005__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A005"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "safety:S014__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S014"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__A006__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A006"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__A016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A016"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "safety:S012__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S012"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A024__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A024"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__A022__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A022"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__A027__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A027"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__002",
+      "task_type": "safety",
+      "query": "Пациент 72 года, умеренный ДЭ. Врач планирует назначить циталопрам 40 мг/сут.",
+      "expected": [
+        "ru_grls_citalopram_ЛП010733РГRU",
+        "ru_cr_depression_adult_301_3"
+      ],
+      "matches": {
+        "ru_grls_citalopram_ЛП010733РГRU": null,
+        "ru_cr_depression_adult_301_3": null
+      },
+      "matched": 0,
+      "expected_count": 2,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__M016__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M016"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__M025__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M025"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "safety:S009__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S009"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "card:venlafaxine__safe_001",
+          "source_id": "ru_grls_venlafaxine",
+          "entity_ids": [
+            "card:venlafaxine"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A033__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A033"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "scale:gad7_ru__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "scale:gad7_ru"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__A017__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A017"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__003",
+      "task_type": "safety",
+      "query": "Пациент 55 лет, тяжёлый ДЭ без психотических симптомов. Перенесённый инфаркт миокарда 3 недели назад. Врач планирует амитриптилин 150 мг/сут.",
+      "expected": [
+        "ru_grls_amitriptyline_РN000221",
+        "ru_cr_depression_adult_301_3"
+      ],
+      "matches": {
+        "ru_grls_amitriptyline_РN000221": null,
+        "ru_cr_depression_adult_301_3": null
+      },
+      "matched": 0,
+      "expected_count": 2,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "safety:S009__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S009"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__M013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M013"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__A033__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A033"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__M017__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M017"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:bromdihydrochlorphenylbenzodiazepine__safe_001",
+          "source_id": "ru_grls_bromdihydrochlorphenylbenzodiazepine",
+          "entity_ids": [
+            "card:bromdihydrochlorphenylbenzodiazepine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__M010__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M010"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__M011__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M011"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__004",
+      "task_type": "safety",
+      "query": "Пациентка 32 года, резистентный ДЭ. Планируется аугментация лития карбонатом. Пациентка на ранних сроках беременности (6 недель).",
+      "expected": [
+        "ru_grls_lithium_carbonate_ЛП004190РГRU",
+        "ru_cr_depression_adult_301_3"
+      ],
+      "matches": {
+        "ru_grls_lithium_carbonate_ЛП004190РГRU": null,
+        "ru_cr_depression_adult_301_3": null
+      },
+      "matched": 0,
+      "expected_count": 2,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "safety:S010__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S010"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__A022__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A022"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "safety:S001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S001"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "safety:S014__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S014"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__A032__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A032"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__M001__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M001"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__M006__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M006"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A021__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A021"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__M005__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M005"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__M004__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M004"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__005",
+      "task_type": "report",
+      "query": "Пациент 41 год, умеренный ДЭ. Эсциталопрам 15 мг. HDRS-17: исходно 22, через 4 недели — 14, через 8 недель — 6. MADRS через 8 недель — 8.",
+      "expected": [
+        "ru_cr_depression_adult_301_3",
+        "scale:hdrs17",
+        "scale:madrs",
+        "ru_cr_depression_adult_301_3__D009",
+        "ru_cr_depression_adult_301_3__D010"
+      ],
+      "matches": {
+        "ru_cr_depression_adult_301_3": null,
+        "scale:hdrs17": null,
+        "scale:madrs": null,
+        "ru_cr_depression_adult_301_3__D009": null,
+        "ru_cr_depression_adult_301_3__D010": null
+      },
+      "matched": 0,
+      "expected_count": 5,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__A022__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A022"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "scale:gad7_ru__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "scale:gad7_ru"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__M002__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M002"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__A027__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A027"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__A032__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A032"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__A021__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A021"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "scale:hars_ru__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "scale:hars_ru"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__M004__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M004"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__M005__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M005"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__006",
+      "task_type": "safety",
+      "query": "Пациент 28 лет, тяжёлый ДЭ. C-SSRS: суицидальные мысли с намерением и планом (severity 4–5). Врач планирует амбулаторное назначение сертралина.",
+      "expected": [
+        "ru_cr_depression_adult_301_3",
+        "ru_cr_depression_adult_301_3__D023",
+        "safety:DS01",
+        "safety:DS02"
+      ],
+      "matches": {
+        "ru_cr_depression_adult_301_3": null,
+        "ru_cr_depression_adult_301_3__D023": null,
+        "safety:DS01": null,
+        "safety:DS02": null
+      },
+      "matched": 0,
+      "expected_count": 4,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "safety:S009__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S009"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__A033__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A033"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__A021__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A021"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "safety:S007__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S007"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:venlafaxine__safe_001",
+          "source_id": "ru_grls_venlafaxine",
+          "entity_ids": [
+            "card:venlafaxine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__A008__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A008"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__A007__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A007"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__007",
+      "task_type": "safety",
+      "query": "Пациент 35 лет, умеренный ДЭ, сопутствующих заболеваний нет, ИМАО не принимает, ЭКГ в норме. Врач планирует сертралин 50 мг с титрацией до 100 мг.",
+      "expected": [
+        "ru_cr_depression_adult_301_3"
+      ],
+      "matches": {
+        "ru_cr_depression_adult_301_3": null
+      },
+      "matched": 0,
+      "expected_count": 1,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M014__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M014"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__M003__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M003"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "ru_cr_gad_adult_457_3__M013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M013"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "card:hydroxyzine__safe_001",
+          "source_id": "ru_grls_hydroxyzine",
+          "entity_ids": [
+            "card:hydroxyzine"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:venlafaxine__safe_001",
+          "source_id": "ru_grls_venlafaxine",
+          "entity_ids": [
+            "card:venlafaxine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__008",
+      "task_type": "rag_qa",
+      "query": "Пациент 42 года с умеренным ДЭ и сопутствующим ГТР. Уже получает Авиандр (маритиупирдин) 60 мг/сут по поводу ГТР с хорошим эффектом. Вопрос врача: «Можно ли продолжить Авиандр и добавить антидепрессант? Какой АД предпочтителен?»",
+      "expected": [
+        "ru_cr_depression_adult_301_3",
+        "ru_cr_gad_adult_457_3",
+        "ru_cr_gad_adult_457_3 (Авиандр / маритиупирдин)"
+      ],
+      "matches": {
+        "ru_cr_depression_adult_301_3": null,
+        "ru_cr_gad_adult_457_3": 1,
+        "ru_cr_gad_adult_457_3 (Авиандр / маритиупирдин)": 1
+      },
+      "matched": 2,
+      "expected_count": 3,
+      "recall": 0.6667,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__M018__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M018"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__M013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M013"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "card:fluoxetine__safe_001",
+          "source_id": "ru_grls_fluoxetine",
+          "entity_ids": [
+            "card:fluoxetine"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "safety:S014__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "safety:S014"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "ru_cr_gad_adult_457_3__M017__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M017"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:paroxetine__safe_001",
+          "source_id": "ru_grls_paroxetine",
+          "entity_ids": [
+            "card:paroxetine"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__009",
+      "task_type": "safety",
+      "query": "Пациентка 38 лет. Получала Авиандр 60 мг по ГТР. На фоне терапии появились выраженные депрессивные симптомы (HDRS-17 = 24). Врач планирует отменить Авиандр и сразу начать венлафаксин 75 мг + эсциталопрам 10 мг.",
+      "expected": [
+        "ru_cr_depression_adult_301_3",
+        "ru_cr_gad_adult_457_3",
+        "safety rules (серотонин / ИМАО-подобные)"
+      ],
+      "matches": {
+        "ru_cr_depression_adult_301_3": null,
+        "ru_cr_gad_adult_457_3": 1,
+        "safety rules (серотонин / ИМАО-подобные)": null
+      },
+      "matched": 1,
+      "expected_count": 3,
+      "recall": 0.3333,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "ru_cr_gad_adult_457_3__A019__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A019"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "ru_cr_gad_adult_457_3__M002__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M002"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__M004__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M004"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "ru_cr_gad_adult_457_3__M012__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M012"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "scale:hars_ru__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "scale:hars_ru"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:paroxetine__safe_001",
+          "source_id": "ru_grls_paroxetine",
+          "entity_ids": [
+            "card:paroxetine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "eval:dep__010",
+      "task_type": "safety",
+      "query": "Пациент 45 лет. ДЭ средней тяжести + ГТР. Принимает Авиандр 60 мг. На фоне добавления сертралина 50 мг через 10 дней появились признаки гипомании (повышенная активность, уменьшенная потребность во сне, раздражительность). HCL-33 положительный скрининг.",
+      "expected": [
+        "ru_cr_depression_adult_301_3",
+        "ru_cr_depression_adult_301_3__D013",
+        "ru_cr_depression_adult_301_3__D025",
+        "ru_cr_depression_adult_301_3__D026",
+        "safety:DS09",
+        "safety:DS14"
+      ],
+      "matches": {
+        "ru_cr_depression_adult_301_3": null,
+        "ru_cr_depression_adult_301_3__D013": null,
+        "ru_cr_depression_adult_301_3__D025": null,
+        "ru_cr_depression_adult_301_3__D026": null,
+        "safety:DS09": null,
+        "safety:DS14": null
+      },
+      "matched": 0,
+      "expected_count": 6,
+      "recall": 0.0,
+      "top_results": [
+        {
+          "rank": 1,
+          "chunk_id": "card:sertraline__safe_001",
+          "source_id": "ru_grls_sertraline",
+          "entity_ids": [
+            "card:sertraline"
+          ]
+        },
+        {
+          "rank": 2,
+          "chunk_id": "card:imipramine__safe_001",
+          "source_id": "ru_grls_imipramine",
+          "entity_ids": [
+            "card:imipramine"
+          ]
+        },
+        {
+          "rank": 3,
+          "chunk_id": "ru_cr_gad_adult_457_3__M003__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M003"
+          ]
+        },
+        {
+          "rank": 4,
+          "chunk_id": "ru_cr_gad_adult_457_3__A004__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A004"
+          ]
+        },
+        {
+          "rank": 5,
+          "chunk_id": "ru_cr_gad_adult_457_3__A013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__A013"
+          ]
+        },
+        {
+          "rank": 6,
+          "chunk_id": "card:agomelatine__safe_001",
+          "source_id": "ru_grls_agomelatine",
+          "entity_ids": [
+            "card:agomelatine"
+          ]
+        },
+        {
+          "rank": 7,
+          "chunk_id": "card:clomipramine__safe_001",
+          "source_id": "ru_grls_clomipramine",
+          "entity_ids": [
+            "card:clomipramine"
+          ]
+        },
+        {
+          "rank": 8,
+          "chunk_id": "card:alimemazine__safe_001",
+          "source_id": "ru_grls_alimemazine",
+          "entity_ids": [
+            "card:alimemazine"
+          ]
+        },
+        {
+          "rank": 9,
+          "chunk_id": "card:paroxetine__safe_001",
+          "source_id": "ru_grls_paroxetine",
+          "entity_ids": [
+            "card:paroxetine"
+          ]
+        },
+        {
+          "rank": 10,
+          "chunk_id": "ru_cr_gad_adult_457_3__M013__safe_001",
+          "source_id": "ru_cr_gad_adult_457_3",
+          "entity_ids": [
+            "ru_cr_gad_adult_457_3__M013"
+          ]
+        }
+      ]
+    }
+  ]
+}

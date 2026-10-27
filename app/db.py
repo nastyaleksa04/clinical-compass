@@ -21,6 +21,8 @@ def connection() -> Iterator[sqlite3.Connection]:
     database = sqlite3.connect(DB_PATH)
     database.row_factory = sqlite3.Row
     database.execute("PRAGMA foreign_keys = ON")
+    database.execute("PRAGMA busy_timeout = 5000")
+    database.execute("PRAGMA synchronous = NORMAL")
     try:
         yield database
         database.commit()
@@ -30,6 +32,7 @@ def connection() -> Iterator[sqlite3.Connection]:
 
 def init_db() -> None:
     with connection() as database:
+        database.execute("PRAGMA journal_mode = WAL")
         database.executescript(
             """
             CREATE TABLE IF NOT EXISTS patients (
@@ -171,6 +174,62 @@ def init_db() -> None:
                 updated_by TEXT NOT NULL DEFAULT '',
                 updated_at TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS ai_clinical_summaries (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+                draft_text TEXT NOT NULL,
+                final_text TEXT NOT NULL,
+                model TEXT NOT NULL DEFAULT '',
+                retrieval_release TEXT NOT NULL DEFAULT '',
+                citations_json TEXT NOT NULL DEFAULT '[]',
+                confirmed_by TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS assistant_intakes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+                topic TEXT NOT NULL,
+                original_question TEXT NOT NULL,
+                answers_json TEXT NOT NULL,
+                request_fingerprint TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                UNIQUE(patient_id, request_fingerprint)
+            );
+            CREATE INDEX IF NOT EXISTS idx_ai_summaries_patient_created
+            ON ai_clinical_summaries(patient_id, created_at DESC);
+            CREATE INDEX IF NOT EXISTS idx_assistant_intakes_patient_created
+            ON assistant_intakes(patient_id, created_at DESC);
+            CREATE TABLE IF NOT EXISTS drug_reports (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                patient_id INTEGER NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+                drug_id TEXT NOT NULL,
+                intake TEXT NOT NULL,
+                duration TEXT NOT NULL,
+                domains_json TEXT NOT NULL,
+                red_flags_json TEXT NOT NULL DEFAULT '[]',
+                attribution TEXT,
+                impact TEXT,
+                note TEXT NOT NULL DEFAULT '',
+                share_consent INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_drug_reports_patient_created
+            ON drug_reports(patient_id, created_at DESC);
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                login TEXT NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL,
+                role TEXT NOT NULL CHECK(role IN ('patient', 'doctor')),
+                display_name TEXT NOT NULL,
+                patient_id INTEGER REFERENCES patients(id) ON DELETE CASCADE,
+                created_at TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS sessions (
+                token_hash TEXT PRIMARY KEY,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                created_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL
+            );
             CREATE TABLE IF NOT EXISTS app_meta (
                 key TEXT PRIMARY KEY,
                 value TEXT NOT NULL
@@ -215,6 +274,10 @@ def init_db() -> None:
                     (4, "Елена Орлова", "ЕО", 30, "Ожидается самоотчёт"),
                 ],
             )
+        alert_columns = {row["name"] for row in database.execute("PRAGMA table_info(alerts)")}
+        if "delivered_at" not in alert_columns:
+            database.execute("ALTER TABLE alerts ADD COLUMN delivered_at TEXT")
+            database.execute("ALTER TABLE alerts ADD COLUMN delivery_seconds REAL")
         created_at = now_iso()
         database.execute(
             """INSERT OR IGNORE INTO patient_profiles(
@@ -574,6 +637,79 @@ def cancel_therapy_decision(decision_id: int) -> dict[str, Any] | None:
     return next(item for item in get_therapy_decisions(patient_id, include_internal=True) if item["id"] == decision_id)
 
 
+def get_ai_summaries(patient_id: int, limit: int = 20) -> list[dict[str, Any]]:
+    with connection() as database:
+        rows = database.execute(
+            "SELECT * FROM ai_clinical_summaries WHERE patient_id = ? ORDER BY created_at DESC, id DESC LIMIT ?",
+            (patient_id, limit),
+        ).fetchall()
+    results = []
+    for row in rows:
+        item = dict(row)
+        item["citations"] = json.loads(item.pop("citations_json"))
+        results.append(item)
+    return results
+
+
+def save_ai_summary(patient_id: int, payload: dict[str, Any], confirmed_by: str) -> dict[str, Any]:
+    created_at = now_iso()
+    with connection() as database:
+        cursor = database.execute(
+            """INSERT INTO ai_clinical_summaries(
+                   patient_id, draft_text, final_text, model, retrieval_release,
+                   citations_json, confirmed_by, created_at
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (
+                patient_id, payload["draft_text"], payload["content"], payload["model"],
+                payload["retrieval_release"], json.dumps(payload["citations"], ensure_ascii=False),
+                confirmed_by, created_at,
+            ),
+        )
+        summary_id = int(cursor.lastrowid)
+    return next(item for item in get_ai_summaries(patient_id) if item["id"] == summary_id)
+
+
+def get_assistant_intakes(patient_id: int, limit: int = 30) -> list[dict[str, Any]]:
+    with connection() as database:
+        rows = database.execute(
+            "SELECT * FROM assistant_intakes WHERE patient_id = ? ORDER BY created_at DESC, id DESC LIMIT ?",
+            (patient_id, limit),
+        ).fetchall()
+    results = []
+    for row in rows:
+        item = dict(row)
+        item["answers"] = json.loads(item.pop("answers_json"))
+        item.pop("request_fingerprint", None)
+        results.append(item)
+    return results
+
+
+def save_assistant_intake(
+    patient_id: int,
+    topic: str,
+    original_question: str,
+    answers: dict[str, str],
+    request_fingerprint: str,
+) -> dict[str, Any]:
+    created_at = now_iso()
+    with connection() as database:
+        database.execute(
+            """INSERT OR IGNORE INTO assistant_intakes(
+                   patient_id, topic, original_question, answers_json,
+                   request_fingerprint, created_at
+               ) VALUES (?, ?, ?, ?, ?, ?)""",
+            (
+                patient_id, topic, original_question,
+                json.dumps(answers, ensure_ascii=False), request_fingerprint, created_at,
+            ),
+        )
+        row = database.execute(
+            "SELECT id FROM assistant_intakes WHERE patient_id = ? AND request_fingerprint = ?",
+            (patient_id, request_fingerprint),
+        ).fetchone()
+    return next(item for item in get_assistant_intakes(patient_id) if item["id"] == row["id"])
+
+
 def get_timeline(patient_id: int, include_clinical: bool = False, limit: int = 100) -> list[dict[str, Any]]:
     events: list[dict[str, Any]] = []
 
@@ -601,6 +737,21 @@ def get_timeline(patient_id: int, include_clinical: bool = False, limit: int = 1
             "details": "Есть критический ответ" if item["alert"] else "Стандартизированная оценка",
             "tone": "danger" if item["alert"] else "info",
             "status": "Требует оценки" if item["alert"] else "Результат",
+            "created_at": item["created_at"],
+        })
+
+    for item in get_drug_reports(patient_id, limit=limit):
+        changed = [answer for answer in item["sections"] if any(answer["answers"].values())]
+        marked = sum(1 for answer in item["sections"] for value in answer["answers"].values() if value)
+        events.append({
+            "id": f"drug-report-{item['id']}",
+            "type": "drug_report",
+            "category": "therapy",
+            "title": "Опросник побочных эффектов",
+            "summary": f"Отмечено пунктов: {marked} в {len(changed)} разделах" if changed else "Ничего не отмечено",
+            "details": item["note"] or ("Отмечены тревожные признаки" if item["red_flags"] else "Наблюдение на фоне приёма"),
+            "tone": "danger" if item["red_flags"] else ("warning" if changed else "success"),
+            "status": "Тревожный признак" if item["red_flags"] else "Получена",
             "created_at": item["created_at"],
         })
 
@@ -671,6 +822,20 @@ def get_timeline(patient_id: int, include_clinical: bool = False, limit: int = 1
             "created_at": item["completed_at"] or item["created_at"],
         })
 
+    for item in get_assistant_intakes(patient_id, limit):
+        preview = " · ".join(str(value) for value in list(item["answers"].values())[:2])
+        events.append({
+            "id": f"assistant-intake-{item['id']}",
+            "type": "assistant_intake",
+            "category": "monitoring",
+            "title": "Уточнение для помощника",
+            "summary": item["original_question"],
+            "details": preview,
+            "tone": "info",
+            "status": "Подтверждено пациентом",
+            "created_at": item["created_at"],
+        })
+
     for item in get_routing_signals(patient_id, include_unconfirmed=include_clinical):
         status_label = {"pending": "Ожидает решения", "confirmed": "Подтверждено", "dismissed": "Отклонено"}[item["status"]]
         events.append({
@@ -686,6 +851,19 @@ def get_timeline(patient_id: int, include_clinical: bool = False, limit: int = 1
         })
 
     if include_clinical:
+        for item in get_ai_summaries(patient_id, limit):
+            events.append({
+                "id": f"ai-summary-{item['id']}",
+                "type": "ai_summary",
+                "category": "clinical",
+                "title": "AI-сводка проверена врачом",
+                "summary": item["final_text"][:280],
+                "details": f"Подтвердил: {item['confirmed_by']} · модель: {item['model'] or 'не указана'}",
+                "tone": "success",
+                "status": "Подтверждено врачом",
+                "created_at": item["created_at"],
+            })
+
         profile = get_clinical_profile(patient_id)
         if profile["updated_at"]:
             events.append({
@@ -927,3 +1105,104 @@ def save_plan(patient_id: int, text: str, confirmed_by: str) -> dict[str, Any]:
             (patient_id, text, confirmed_by, created_at),
         )
         return dict(database.execute("SELECT * FROM plans WHERE patient_id = ?", (patient_id,)).fetchone())
+
+
+def _drug_report(row: sqlite3.Row) -> dict[str, Any]:
+    item = dict(row)
+    data = json.loads(item.pop("domains_json"))
+    # версия 2 — опросник скрытых побочных эффектов; анкеты первой версии показываются без разделов
+    item["sections"] = data.get("sections", []) if isinstance(data, dict) else []
+    item["followups"] = data.get("followups", {}) if isinstance(data, dict) else {}
+    item["red_flags"] = json.loads(item.pop("red_flags_json"))
+    item["share_consent"] = bool(item["share_consent"])
+    return item
+
+
+def get_drug_reports(patient_id: int | None = None, drug_id: str | None = None, limit: int = 50) -> list[dict[str, Any]]:
+    query, params = "SELECT * FROM drug_reports WHERE 1 = 1", []
+    if patient_id is not None:
+        query += " AND patient_id = ?"
+        params.append(patient_id)
+    if drug_id is not None:
+        query += " AND drug_id = ?"
+        params.append(drug_id)
+    query += " ORDER BY created_at DESC, id DESC LIMIT ?"
+    with connection() as database:
+        return [_drug_report(row) for row in database.execute(query, (*params, limit)).fetchall()]
+
+
+def create_drug_report(patient_id: int, payload: dict[str, Any]) -> dict[str, Any]:
+    with connection() as database:
+        cursor = database.execute(
+            """INSERT INTO drug_reports(
+                   patient_id, drug_id, intake, duration, domains_json, red_flags_json,
+                   attribution, impact, note, share_consent, created_at
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (
+                patient_id, payload["drug_id"], "", "",
+                json.dumps({"version": 2, "sections": payload["sections"], "followups": payload.get("followups", {})}, ensure_ascii=False),
+                json.dumps(payload["red_flags"]), None, payload.get("impact"), payload["note"], int(payload["share_consent"]),
+                payload.get("created_at") or now_iso(),
+            ),
+        )
+        return _drug_report(database.execute("SELECT * FROM drug_reports WHERE id = ?", (cursor.lastrowid,)).fetchone())
+
+
+def mark_alert_delivered(alert_id: int) -> dict[str, Any] | None:
+    """Фиксирует первое появление алерта в интерфейсе врача и время доставки."""
+    delivered_at = now_iso()
+    with connection() as database:
+        row = database.execute("SELECT * FROM alerts WHERE id = ?", (alert_id,)).fetchone()
+        if not row:
+            return None
+        if not row["delivered_at"]:
+            seconds = (datetime.fromisoformat(delivered_at) - datetime.fromisoformat(row["triggered_at"])).total_seconds()
+            database.execute("UPDATE alerts SET delivered_at = ?, delivery_seconds = ? WHERE id = ?", (delivered_at, seconds, alert_id))
+        return dict(database.execute("SELECT * FROM alerts WHERE id = ?", (alert_id,)).fetchone())
+
+
+def alert_delivery_stats() -> dict[str, Any]:
+    with connection() as database:
+        values = sorted(row[0] for row in database.execute("SELECT delivery_seconds FROM alerts WHERE delivery_seconds IS NOT NULL"))
+    if not values:
+        return {"count": 0, "median_seconds": None, "max_seconds": None}
+    middle = len(values) // 2
+    median = values[middle] if len(values) % 2 else (values[middle - 1] + values[middle]) / 2
+    return {"count": len(values), "median_seconds": round(median, 2), "max_seconds": round(values[-1], 2)}
+
+
+def get_user_by_login(login: str) -> dict[str, Any] | None:
+    with connection() as database:
+        return row_dict(database.execute("SELECT * FROM users WHERE login = ?", (login,)).fetchone())
+
+
+def create_user(login: str, password_hash: str, role: str, display_name: str, patient_id: int | None) -> None:
+    with connection() as database:
+        database.execute(
+            "INSERT OR IGNORE INTO users(login, password_hash, role, display_name, patient_id, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            (login, password_hash, role, display_name, patient_id, now_iso()),
+        )
+
+
+def create_session(token_hash: str, user_id: int, expires_at: str) -> None:
+    with connection() as database:
+        database.execute("DELETE FROM sessions WHERE expires_at < ?", (now_iso(),))
+        database.execute(
+            "INSERT INTO sessions(token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)",
+            (token_hash, user_id, now_iso(), expires_at),
+        )
+
+
+def get_session_user(token_hash: str) -> dict[str, Any] | None:
+    with connection() as database:
+        return row_dict(database.execute(
+            """SELECT u.id, u.login, u.role, u.display_name, u.patient_id, s.expires_at
+               FROM sessions s JOIN users u ON u.id = s.user_id
+               WHERE s.token_hash = ? AND s.expires_at > ?""",
+            (token_hash, now_iso()),
+        ).fetchone())
+
+
+def delete_session(token_hash: str) -> None:
+    with connection() as database:
+        database.execute("DELETE FROM sessions WHERE token_hash = ?", (token_hash,))

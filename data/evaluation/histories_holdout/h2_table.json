@@ -1,0 +1,18 @@
+{
+ "age": 31,
+ "sex": "female",
+ "pregnancy_status": "no",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F41.0"
+ ],
+ "scales": {},
+ "medications": [],
+ "therapy_factors": [],
+ "text": {
+  "working_hypothesis": [
+   "F41.0"
+  ]
+ }
+}

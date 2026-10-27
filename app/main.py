@@ -1,3 +1,7 @@
+import base64
+import binascii
+import os
+import time
 from contextlib import asynccontextmanager
 from datetime import date
 from pathlib import Path
@@ -5,12 +9,24 @@ from typing import Annotated, Literal
 
 from fastapi import Depends, FastAPI, Header, HTTPException, status
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import Response
 from pydantic import BaseModel, Field
 
 from app import alerting
+from app import auth
 from app import db
 from app import knowledge
+from app import documents
+from app import demo_life
+from app import drug_survey
+from app import history_import
 from app import recommendations
+from app import neuron
+from app.rag import assistant as rag_assistant
+from app.rag import patient_assistant
+from app.rag import clinical_summary
+from app.rag import case_assistant
+from app.rag import retrieval
 from app import safety
 from app import scenarios
 from app import therapy
@@ -25,8 +41,11 @@ Role = Literal["patient", "doctor"]
 async def lifespan(_: FastAPI):
     db.init_db()
     scenarios.seed()
+    auth.seed_demo_users()
     scenarios.seed_clinical_profiles()
     knowledge.seed_templates()
+    if os.environ.get("CLINICAL_COMPASS_DEMO_DATA") == "1":
+        demo_life.seed()
     scale_engine.catalogue()
     yield
 
@@ -34,7 +53,7 @@ async def lifespan(_: FastAPI):
 app = FastAPI(
     title="Клинический компас",
     description="Локальный API прототипа цифрового ассистента врача",
-    version="0.12.0",
+    version="0.23.0",
     lifespan=lifespan,
 )
 
@@ -60,6 +79,25 @@ class MedicationCheckinCreate(BaseModel):
     taken: bool
     side_effect: str = Field(default="", max_length=2000)
     side_effect_severity: Literal["none", "mild", "moderate", "severe"] = "none"
+
+
+class DrugSectionAnswer(BaseModel):
+    section: str = Field(min_length=1, max_length=4)
+    skipped: bool = False
+    answers: dict[str, int] = Field(default_factory=dict, max_length=20)
+    attribution: Literal["yes", "no", "unknown"] | None = None
+    onset: Literal["after_start", "before"] | None = None
+    note: str = Field(default="", max_length=1000)
+
+
+class DrugReportCreate(BaseModel):
+    drug_id: str = Field(default="aviandr", max_length=40)
+    sections: list[DrugSectionAnswer] = Field(max_length=20)
+    red_flags: dict[str, bool] = Field(max_length=20)
+    impact: Literal["none", "some", "marked", "strong"]
+    followups: dict[str, bool] = Field(max_length=10)
+    note: str = Field(default="", max_length=2000)
+    share_consent: bool = False
 
 
 class RoutingDecision(BaseModel):
@@ -116,6 +154,42 @@ class KnowledgeArticleWrite(BaseModel):
     source_url: str = Field(default="", max_length=500, pattern=r"^$|^https?://\S+$")
 
 
+class RAGSearchRequest(BaseModel):
+    query: str = Field(min_length=3, max_length=1000)
+    limit: int = Field(default=5, ge=1, le=10)
+
+
+class RAGAnswerRequest(BaseModel):
+    query: str = Field(min_length=3, max_length=2000)
+    limit: int = Field(default=6, ge=1, le=10)
+
+
+class PatientAssistantRequest(BaseModel):
+    query: str = Field(min_length=3, max_length=2000)
+    limit: int = Field(default=5, ge=1, le=8)
+    clarification_answers: dict[str, Annotated[str, Field(max_length=500)]] = Field(
+        default_factory=dict, max_length=6
+    )
+    confirm_clarification: bool = False
+
+
+class ClinicalSummaryRequest(BaseModel):
+    limit: int = Field(default=6, ge=1, le=10)
+
+
+class CaseAssistantRequest(BaseModel):
+    question: str = Field(min_length=3, max_length=2000)
+    limit: int = Field(default=6, ge=1, le=10)
+
+
+class ClinicalSummaryApproval(BaseModel):
+    content: str = Field(min_length=20, max_length=20000)
+    draft_text: str = Field(min_length=20, max_length=20000)
+    model: str = Field(default="", max_length=200)
+    retrieval_release: str = Field(default="", max_length=200)
+    citations: list[dict] = Field(default_factory=list, max_length=10)
+
+
 class TherapyDecisionCreate(BaseModel):
     medication_id: str = Field(min_length=1, max_length=100)
     indication: str = Field(default="", max_length=500)
@@ -127,15 +201,56 @@ class TherapyDecisionCreate(BaseModel):
     factors: dict[str, bool] = Field(default_factory=dict)
 
 
+class LoginRequest(BaseModel):
+    login: str = Field(min_length=1, max_length=60)
+    password: str = Field(min_length=1, max_length=200)
+
+
+class HistoryImportRequest(BaseModel):
+    text: str = Field(default="", max_length=200_000)
+    filename: str = Field(default="", max_length=200)
+    content_base64: str = Field(default="", max_length=7_000_000)
+
+
 class TherapyCheck(BaseModel):
     medication_id: str = Field(min_length=1, max_length=100)
     factors: dict[str, bool]
 
 
-def demo_role(x_demo_role: Annotated[str, Header()] = "patient") -> Role:
-    if x_demo_role not in {"patient", "doctor"}:
-        raise HTTPException(status_code=401, detail="Неизвестная демонстрационная роль")
-    return x_demo_role  # type: ignore[return-value]
+def bearer_token(authorization: str | None) -> str | None:
+    if authorization and authorization.lower().startswith("bearer "):
+        return authorization[7:].strip() or None
+    return None
+
+
+def demo_role(
+    authorization: Annotated[str | None, Header()] = None,
+    x_demo_role: Annotated[str | None, Header()] = None,
+) -> Role:
+    token = bearer_token(authorization)
+    if token:
+        user = auth.resolve(token)
+        if not user:
+            raise HTTPException(status_code=401, detail="Сессия истекла, войдите снова")
+        return user["role"]
+    if x_demo_role is not None and auth.demo_headers_allowed():
+        if x_demo_role not in {"patient", "doctor"}:
+            raise HTTPException(status_code=401, detail="Неизвестная демонстрационная роль")
+        return x_demo_role  # type: ignore[return-value]
+    raise HTTPException(status_code=401, detail="Требуется вход")
+
+
+DEMO_PATIENT_ID = 1
+
+
+def own_patient_id(authorization: Annotated[str | None, Header()] = None) -> int:
+    """Пациент, к которому привязана сессия. Пациент видит и меняет только свои данные."""
+    token = bearer_token(authorization)
+    if token:
+        user = auth.resolve(token)
+        if user and user.get("patient_id"):
+            return int(user["patient_id"])
+    return DEMO_PATIENT_ID
 
 
 def require_role(required: Role):
@@ -166,12 +281,38 @@ def patient_bundle(patient_id: int, include_unconfirmed: bool = False) -> dict:
         "timeline": db.get_timeline(patient_id, include_clinical=include_unconfirmed),
         "therapy_decisions": db.get_therapy_decisions(patient_id, include_internal=include_unconfirmed),
         "recommendations": recommendations.build(patient_id) if include_unconfirmed else None,
+        "ai_summaries": db.get_ai_summaries(patient_id) if include_unconfirmed else [],
+        "assistant_intakes": db.get_assistant_intakes(patient_id),
     }
 
 
 @app.get("/api/health")
 def health() -> dict[str, str]:
-    return {"status": "ok", "service": "clinical-compass", "storage": "sqlite", "version": "0.12.0"}
+    return {"status": "ok", "service": "clinical-compass", "storage": "sqlite", "version": "0.23.0"}
+
+
+@app.post("/api/auth/login")
+def auth_login(request: LoginRequest) -> dict:
+    session = auth.login(request.login, request.password)
+    if not session:
+        raise HTTPException(status_code=401, detail="Неверный логин или пароль")
+    return session
+
+
+@app.get("/api/auth/me")
+def auth_me(authorization: Annotated[str | None, Header()] = None) -> dict:
+    token = bearer_token(authorization)
+    user = auth.resolve(token) if token else None
+    if not user:
+        raise HTTPException(status_code=401, detail="Требуется вход")
+    return auth.public_user(user)
+
+
+@app.post("/api/auth/logout", status_code=status.HTTP_204_NO_CONTENT)
+def auth_logout(authorization: Annotated[str | None, Header()] = None) -> None:
+    token = bearer_token(authorization)
+    if token:
+        auth.logout(token)
 
 
 @app.get("/api/scales")
@@ -180,9 +321,9 @@ def available_scales(_: Role = Depends(demo_role)) -> dict:
 
 
 @app.get("/api/state")
-def application_state(role: Role = Depends(demo_role)) -> dict:
+def application_state(role: Role = Depends(demo_role), own: int = Depends(own_patient_id)) -> dict:
     if role == "patient":
-        return {"role": role, **patient_bundle(1)}
+        return {"role": role, **patient_bundle(own)}
     settings = alerting.config()
     return {
         "role": role,
@@ -198,8 +339,8 @@ def patient_detail(patient_id: int, _: Role = Depends(require_role("doctor"))) -
 
 
 @app.post("/api/patients/{patient_id}/reports", status_code=status.HTTP_201_CREATED)
-def submit_report(patient_id: int, report: ReportCreate, _: Role = Depends(require_role("patient"))) -> dict:
-    if patient_id != 1:
+def submit_report(patient_id: int, report: ReportCreate, _: Role = Depends(require_role("patient")), own: int = Depends(own_patient_id)) -> dict:
+    if patient_id != own:
         raise HTTPException(status_code=403, detail="Пациент может изменять только свои данные")
     if not db.get_patient(patient_id):
         raise HTTPException(status_code=404, detail="Пациент не найден")
@@ -211,8 +352,8 @@ def submit_report(patient_id: int, report: ReportCreate, _: Role = Depends(requi
 
 
 @app.post("/api/patients/{patient_id}/assessments", status_code=status.HTTP_201_CREATED)
-def submit_assessment(patient_id: int, assessment: AssessmentCreate, _: Role = Depends(require_role("patient"))) -> dict:
-    if patient_id != 1:
+def submit_assessment(patient_id: int, assessment: AssessmentCreate, _: Role = Depends(require_role("patient")), own: int = Depends(own_patient_id)) -> dict:
+    if patient_id != own:
         raise HTTPException(status_code=403, detail="Пациент может изменять только свои данные")
     if not db.get_patient(patient_id):
         raise HTTPException(status_code=404, detail="Пациент не найден")
@@ -232,8 +373,9 @@ def submit_medication_checkin(
     patient_id: int,
     checkin: MedicationCheckinCreate,
     _: Role = Depends(require_role("patient")),
+    own: int = Depends(own_patient_id),
 ) -> dict:
-    if patient_id != 1:
+    if patient_id != own:
         raise HTTPException(status_code=403, detail="Пациент может изменять только свои данные")
     if not db.get_patient(patient_id):
         raise HTTPException(status_code=404, detail="Пациент не найден")
@@ -246,12 +388,65 @@ def submit_medication_checkin(
     return saved
 
 
+@app.get("/api/drug-survey")
+def drug_survey_config(_: Role = Depends(demo_role)) -> dict:
+    return drug_survey.config()
+
+
+@app.post("/api/patients/{patient_id}/drug-reports", status_code=status.HTTP_201_CREATED)
+def submit_drug_report(patient_id: int, report: DrugReportCreate, _: Role = Depends(require_role("patient")), own: int = Depends(own_patient_id)) -> dict:
+    if patient_id != own:
+        raise HTTPException(status_code=403, detail="Пациент может изменять только свои данные")
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+    try:
+        cleaned = drug_survey.validate(report.model_dump())
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+    saved = db.create_drug_report(patient_id, cleaned)
+    raised = [db.create_routing_signal(patient_id, signal, "drug_report", saved["id"]) for signal in drug_survey.signals(saved)]
+    return {**drug_survey.describe(saved), "signals": [item["level"] for item in raised]}
+
+
+@app.get("/api/patients/{patient_id}/drug-reports")
+def list_drug_reports(patient_id: int, role: Role = Depends(demo_role), own: int = Depends(own_patient_id)) -> list[dict]:
+    if role == "patient" and patient_id != own:
+        raise HTTPException(status_code=403, detail="Пациент может просматривать только свои данные")
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+    return [drug_survey.describe(item) for item in db.get_drug_reports(patient_id)]
+
+
+@app.get("/api/drug-insights")
+def drug_insights(_: Role = Depends(require_role("doctor"))) -> dict:
+    drug_id = drug_survey.config()["drug"]["id"]
+    return drug_survey.insights(db.get_drug_reports(drug_id=drug_id, limit=5000))
+
+
 @app.post("/api/patients/{patient_id}/review")
 def review_patient_updates(patient_id: int, _: Role = Depends(require_role("doctor"))) -> dict[str, bool]:
     if not db.get_patient(patient_id):
         raise HTTPException(status_code=404, detail="Пациент не найден")
     db.mark_items_reviewed(patient_id)
     return {"reviewed": True}
+
+
+@app.post("/api/patients/{patient_id}/history-import")
+def import_history(patient_id: int, request: HistoryImportRequest, _: Role = Depends(require_role("doctor"))) -> dict:
+    """Разбирает историю болезни в черновик. Ничего не сохраняет: врач проверяет и переносит поля сам."""
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+    started = time.perf_counter()
+    try:
+        if request.content_base64:
+            content = base64.b64decode(request.content_base64, validate=True)
+            text = history_import.extract_text(content, request.filename)
+        else:
+            text = request.text
+        result = history_import.parse(text)
+    except (ValueError, binascii.Error) as error:
+        raise HTTPException(status_code=422, detail=str(error) or "Не удалось разобрать файл") from error
+    return {**result, "elapsed_ms": round((time.perf_counter() - started) * 1000, 1), "source": request.filename or "текст"}
 
 
 @app.put("/api/patients/{patient_id}/clinical-profile")
@@ -290,7 +485,17 @@ def alerts(_: Role = Depends(require_role("doctor"))) -> dict:
     return {
         "alerts": db.refresh_and_get_alerts(settings["escalation_seconds"]),
         "settings": settings,
+        "delivery": db.alert_delivery_stats(),
+        "server_time": db.now_iso(),
     }
+
+
+@app.post("/api/alerts/{alert_id}/delivered")
+def alert_delivered(alert_id: int, _: Role = Depends(require_role("doctor"))) -> dict:
+    saved = db.mark_alert_delivered(alert_id)
+    if not saved:
+        raise HTTPException(status_code=404, detail="Алерт не найден")
+    return saved
 
 
 @app.post("/api/alerts/{alert_id}/acknowledge")
@@ -375,12 +580,12 @@ def add_care_task(
 
 
 @app.put("/api/tasks/{task_id}")
-def change_care_task(task_id: int, update: CareTaskUpdate, role: Role = Depends(demo_role)) -> dict:
+def change_care_task(task_id: int, update: CareTaskUpdate, role: Role = Depends(demo_role), own: int = Depends(own_patient_id)) -> dict:
     task = db.get_care_task(task_id)
     if not task:
         raise HTTPException(status_code=404, detail="Задача не найдена")
     if role == "patient":
-        if task["patient_id"] != 1:
+        if task["patient_id"] != own:
             raise HTTPException(status_code=403, detail="Пациент может изменять только свои задачи")
         if update.status not in {"pending", "completed"}:
             raise HTTPException(status_code=403, detail="Пациент не может отменять назначения врача")
@@ -405,6 +610,99 @@ def note_id(article_id: str) -> int:
     if not article_id.startswith("note-") or not number.isdigit():
         raise HTTPException(status_code=403, detail="Системные статьи формируются из конфигурации и не редактируются")
     return int(number)
+
+
+@app.post("/api/rag/search")
+def rag_search(request: RAGSearchRequest, _: Role = Depends(require_role("doctor"))) -> dict:
+    return retrieval.doctor_index().search(request.query, request.limit)
+
+
+@app.get("/api/rag/status")
+def rag_status(_: Role = Depends(require_role("doctor"))) -> dict:
+    return rag_assistant.status_payload()
+
+
+@app.post("/api/rag/answer")
+def rag_answer(request: RAGAnswerRequest, _: Role = Depends(require_role("doctor"))) -> dict:
+    try:
+        return rag_assistant.answer(request.query, request.limit)
+    except rag_assistant.OpenRouterNotConfigured as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except rag_assistant.OpenRouterError as error:
+        raise HTTPException(status_code=502, detail=str(error)) from error
+
+
+@app.post("/api/patients/{patient_id}/ai-summary")
+def patient_ai_summary(
+    patient_id: int,
+    request: ClinicalSummaryRequest,
+    _: Role = Depends(require_role("doctor")),
+) -> dict:
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+    try:
+        return clinical_summary.generate(patient_id, request.limit)
+    except rag_assistant.OpenRouterNotConfigured as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except rag_assistant.OpenRouterError as error:
+        raise HTTPException(status_code=502, detail=str(error)) from error
+
+
+@app.post("/api/patients/{patient_id}/case-assistant/answer")
+def patient_case_assistant_answer(
+    patient_id: int,
+    request: CaseAssistantRequest,
+    _: Role = Depends(require_role("doctor")),
+) -> dict:
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+    try:
+        return case_assistant.answer(patient_id, request.question, request.limit)
+    except rag_assistant.OpenRouterNotConfigured as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except rag_assistant.OpenRouterError as error:
+        raise HTTPException(status_code=502, detail=str(error)) from error
+
+
+@app.post("/api/patients/{patient_id}/ai-summaries/confirm", status_code=status.HTTP_201_CREATED)
+def confirm_patient_ai_summary(
+    patient_id: int,
+    approval: ClinicalSummaryApproval,
+    _: Role = Depends(require_role("doctor")),
+) -> dict:
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+    payload = approval.model_dump()
+    payload["content"] = payload["content"].strip()
+    payload["draft_text"] = payload["draft_text"].strip()
+    if not payload["content"] or not payload["draft_text"]:
+        raise HTTPException(status_code=422, detail="Текст сводки не может быть пустым")
+    return db.save_ai_summary(patient_id, payload, "Елена Крылова")
+
+
+@app.get("/api/patient-assistant/status")
+def patient_assistant_status(_: Role = Depends(require_role("patient"))) -> dict:
+    return patient_assistant.status_payload()
+
+
+@app.post("/api/patient-assistant/answer")
+def patient_assistant_answer(
+    request: PatientAssistantRequest,
+    _: Role = Depends(require_role("patient")),
+    own: int = Depends(own_patient_id),
+) -> dict:
+    try:
+        return patient_assistant.answer(
+            request.query,
+            request.limit,
+            patient_id=own,
+            clarification_answers=request.clarification_answers,
+            confirm_clarification=request.confirm_clarification,
+        )
+    except rag_assistant.OpenRouterNotConfigured as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except rag_assistant.OpenRouterError as error:
+        raise HTTPException(status_code=502, detail=str(error)) from error
 
 
 @app.get("/api/knowledge")
@@ -439,20 +737,32 @@ def knowledge_delete(article_id: str, _: Role = Depends(require_role("doctor")))
         raise HTTPException(status_code=404, detail="Статья не найдена")
 
 
+@app.get("/api/neuron")
+def patient_neuron(_: Role = Depends(require_role("patient")), own: int = Depends(own_patient_id)) -> dict:
+    return neuron.state(own)
+
+
+@app.get("/api/patients/{patient_id}/neuron")
+def doctor_patient_neuron(patient_id: int, _: Role = Depends(require_role("doctor"))) -> dict:
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+    return neuron.state(patient_id)
+
+
 @app.get("/api/profile")
-def profile(_: Role = Depends(require_role("patient"))) -> dict:
-    return db.get_profile(1)
+def profile(_: Role = Depends(require_role("patient")), own: int = Depends(own_patient_id)) -> dict:
+    return db.get_profile(own)
 
 
 @app.put("/api/profile")
-def update_profile(update: ProfileUpdate, _: Role = Depends(require_role("patient"))) -> dict:
+def update_profile(update: ProfileUpdate, _: Role = Depends(require_role("patient")), own: int = Depends(own_patient_id)) -> dict:
     payload = {key: value.strip() if isinstance(value, str) else value for key, value in update.model_dump().items()}
-    return db.save_profile(1, payload)
+    return db.save_profile(own, payload)
 
 
 @app.get("/api/patients/{patient_id}/messages")
-def messages(patient_id: int, role: Role = Depends(demo_role)) -> dict:
-    if role == "patient" and patient_id != 1:
+def messages(patient_id: int, role: Role = Depends(demo_role), own: int = Depends(own_patient_id)) -> dict:
+    if role == "patient" and patient_id != own:
         raise HTTPException(status_code=403, detail="Пациент может просматривать только свой диалог")
     if not db.get_patient(patient_id):
         raise HTTPException(status_code=404, detail="Пациент не найден")
@@ -461,8 +771,8 @@ def messages(patient_id: int, role: Role = Depends(demo_role)) -> dict:
 
 
 @app.post("/api/patients/{patient_id}/messages", status_code=status.HTTP_201_CREATED)
-def send_message(patient_id: int, message: MessageCreate, role: Role = Depends(demo_role)) -> dict:
-    if role == "patient" and patient_id != 1:
+def send_message(patient_id: int, message: MessageCreate, role: Role = Depends(demo_role), own: int = Depends(own_patient_id)) -> dict:
+    if role == "patient" and patient_id != own:
         raise HTTPException(status_code=403, detail="Пациент может писать только в свой диалог")
     if not db.get_patient(patient_id):
         raise HTTPException(status_code=404, detail="Пациент не найден")
@@ -470,6 +780,44 @@ def send_message(patient_id: int, message: MessageCreate, role: Role = Depends(d
     if not body:
         raise HTTPException(status_code=422, detail="Сообщение не может быть пустым")
     return db.create_message(patient_id, role, body)
+
+
+def require_patient_document_access(
+    patient_id: int,
+    role: Role = Depends(demo_role),
+    own: int = Depends(own_patient_id),
+) -> None:
+    if role == "patient" and patient_id != own:
+        raise HTTPException(status_code=403, detail="Пациент может просматривать только свои документы")
+    if not db.get_patient(patient_id):
+        raise HTTPException(status_code=404, detail="Пациент не найден")
+
+
+@app.get("/api/patients/{patient_id}/documents")
+def patient_documents(
+    patient_id: int,
+    _: None = Depends(require_patient_document_access),
+) -> dict:
+    return {"documents": documents.list_documents(patient_id)}
+
+
+@app.get("/api/patients/{patient_id}/documents/{document_id}/file")
+def patient_document_file(
+    patient_id: int,
+    document_id: str,
+    _: None = Depends(require_patient_document_access),
+) -> Response:
+    document = documents.get_document(patient_id, document_id)
+    if not document:
+        raise HTTPException(status_code=404, detail="Документ не найден")
+    return Response(
+        content=documents.generate_pdf(patient_id, document_id),
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"inline; filename={document_id}-patient-{patient_id}.pdf",
+            "Cache-Control": "no-store",
+        },
+    )
 
 
 app.mount("/", StaticFiles(directory=DIST_DIR, html=True), name="frontend")

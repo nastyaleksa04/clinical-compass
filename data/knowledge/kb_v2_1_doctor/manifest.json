@@ -1,0 +1,31 @@
+{
+  "release": "kb_v2.1-doctor-safe",
+  "built_at": "2026-10-26",
+  "source_bundle": "/mnt/d/datacon_2026/clinical-compass/data/knowledge/kb_v2.zip",
+  "policy": {
+    "audience": [
+      "doctor"
+    ],
+    "review_status": "source_checked",
+    "patient_access": false,
+    "automatic_treatment_decisions": false
+  },
+  "counts": {
+    "sources.jsonl": 27,
+    "entities/conditions.jsonl": 33,
+    "entities/medications.jsonl": 23,
+    "entities/medication_cards.jsonl": 15,
+    "entities/safety_rules.jsonl": 16,
+    "entities/scales.jsonl": 17,
+    "entities/patient_model.jsonl": 28,
+    "entities/eval_cases.jsonl": 20,
+    "entities/chunks.jsonl": 90
+  },
+  "quarantine_count": 166,
+  "quarantine_reasons": {
+    "missing_verified_label": 7,
+    "not_clinically_checked": 143,
+    "not_clinically_checked,missing_verified_label": 11,
+    "trigger_requires_manual_formalization": 5
+  }
+}

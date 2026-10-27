@@ -1,0 +1,11 @@
+{
+  "comment": "Демонстрационные учётные записи. Пароли хранятся в базе только в виде PBKDF2-хеша; перед реальным использованием замените их.",
+  "demo_users": [
+    {"login": "doctor", "password": "doctor2026", "role": "doctor", "display_name": "Елена Крылова"},
+    {"login": "patient", "password": "patient2026", "role": "patient", "display_name": "Анастасия Александрова", "patient_id": 1, "hint": "ГТР, на Авиандре, улучшение"},
+    {"login": "sokolova", "password": "patient2026", "role": "patient", "display_name": "Мария Соколова", "patient_id": 2, "hint": "стабильная динамика"},
+    {"login": "lebedeva", "password": "patient2026", "role": "patient", "display_name": "Ольга Лебедева", "patient_id": 3, "hint": "беременность, противопоказание"},
+    {"login": "morozov", "password": "patient2026", "role": "patient", "display_name": "Илья Морозов", "patient_id": 4, "hint": "ухудшение, побочные эффекты"},
+    {"login": "orlova", "password": "patient2026", "role": "patient", "display_name": "Елена Орлова", "patient_id": 5, "hint": "кризис, критический алерт"}
+  ]
+}

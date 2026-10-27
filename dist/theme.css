@@ -1,0 +1,525 @@
+/* =====================================================================
+   Клинический компас — дизайн-система v2
+   Слой оформления поверх styles.css и documents.css.
+   Только визуальные правила: разметка и поведение не меняются.
+   ===================================================================== */
+
+:root{
+  --ink:#0f1c2e;
+  --ink-2:#334155;
+  --muted:#64748b;
+  --subtle:#94a3b8;
+  --line:#e2e8f0;
+  --line-strong:#cbd5e1;
+  --bg:#f3f6fa;
+  --tile:#f6f8fb;
+  --surface:#fff;
+  --text:var(--ink);
+
+  --teal:#0d9488;
+  --teal-dark:#0f766e;
+  --teal-soft:#e6f6f4;
+  --teal-tint:#f0faf8;
+  --indigo:#4f46e5;
+  --indigo-soft:#eef0ff;
+  --blue-soft:#eef2ff;
+  --violet-soft:#f3f0ff;
+  --amber:#b45309;
+  --amber-soft:#fef6e4;
+  --danger:#dc2f45;
+  --danger-dark:#a51d32;
+  --danger-soft:#fdeef0;
+
+  --radius:20px;
+  --radius-sm:12px;
+  --radius-md:16px;
+  --shadow-xs:0 1px 2px rgba(15,28,46,.05);
+  --shadow:0 1px 2px rgba(15,28,46,.04),0 6px 20px rgba(15,28,46,.05);
+  --shadow-lg:0 12px 40px rgba(15,28,46,.10);
+  --ring:0 0 0 4px rgba(13,148,136,.16);
+}
+
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:Onest,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.5;color:var(--ink);background:var(--bg);text-rendering:optimizeLegibility}
+h1,h2,h3,h4{letter-spacing:-.015em;color:inherit}
+::selection{background:rgba(13,148,136,.18)}
+:focus-visible{outline:none;box-shadow:var(--ring)!important}
+button,a,input,select,textarea,summary{-webkit-tap-highlight-color:transparent}
+a{color:var(--teal-dark)}
+
+/* ---------- Каркас ---------- */
+.main{min-width:0;align-self:start}
+.main,.main-tint{background:transparent}
+.sheet{background:transparent;border-radius:0;box-shadow:none;padding:4px 16px 120px;min-height:auto;--bg:var(--tile)}
+.sheet>*{min-width:0}
+.doctor-layout>*,.content-columns>*,.detail-grid>*,.therapy-decision-grid>*,.therapy-layout>*{min-width:0}
+
+/* Шапка */
+.topbar{position:sticky;top:0;z-index:15;padding:12px 16px;margin:0 0 6px;background:rgba(243,246,250,.86);backdrop-filter:saturate(1.6) blur(16px);-webkit-backdrop-filter:saturate(1.6) blur(16px)}
+.main-tint .topbar{background:transparent;position:relative}
+.identity{gap:12px;border-radius:14px;padding:4px 6px 4px 4px;margin-left:-4px;transition:background .15s}
+.identity:hover{background:rgba(15,28,46,.04)}
+.identity-name small{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.01em}
+.identity-name b{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.identity>.icon{width:16px;height:16px;color:var(--subtle)}
+.avatar{background:linear-gradient(145deg,#e0e7ff,#ede9fe);color:var(--indigo);font-weight:700;border-radius:14px}
+.avatar::after{background:var(--teal);border-color:#fff}
+.avatar-round{width:44px;height:44px;flex-basis:44px;border-radius:50%;font-size:17px;background:linear-gradient(145deg,#c7d2fe,#e0e7ff);color:#3730a3}
+.verified{background:var(--teal);width:18px;height:18px}
+.top-actions{gap:4px}
+.icon-btn{width:42px;height:42px;border-radius:12px;color:var(--ink-2);background:transparent;transition:background .15s,color .15s}
+.icon-btn:hover{background:#fff;color:var(--ink);box-shadow:var(--shadow-xs)}
+.icon-btn .icon{width:22px;height:22px}
+.dot{right:9px;top:8px;width:9px;height:9px;background:var(--danger);border:2px solid var(--bg)}
+.dot-teal{background:var(--teal)}
+.role-switch{margin-left:6px;height:38px;padding:0 14px 0 12px;display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#fff;color:var(--ink-2);font-size:13px;font-weight:600;box-shadow:inset 0 0 0 1px var(--line);transition:.15s}
+.role-switch::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--indigo);box-shadow:0 0 0 3px var(--indigo-soft)}
+.role-switch:hover{color:var(--indigo);box-shadow:inset 0 0 0 1px #c7d2fe}
+
+/* Тонированная шапка главной пациента */
+.main-tint{background:radial-gradient(1200px 380px at 0% 0%,#dff4f1 0,rgba(223,244,241,0) 60%),radial-gradient(900px 360px at 100% 0%,#e6e9ff 0,rgba(230,233,255,0) 60%),var(--bg)}
+
+/* Промо-плитки */
+.promo-strip{gap:10px;padding:4px 16px 16px}
+.promo-tile{flex:0 0 132px;height:118px;border-radius:18px;padding:14px;color:var(--ink);font-size:13px;font-weight:600;line-height:1.25;background:#fff;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.7);transition:transform .2s,box-shadow .2s}
+.promo-tile:nth-child(1){background:linear-gradient(160deg,#fff 30%,#e6f6f4)}
+.promo-tile:nth-child(2){background:linear-gradient(160deg,#fff 30%,#eef0ff)}
+.promo-tile:nth-child(3){background:linear-gradient(160deg,#fff 30%,#f3f0ff)}
+.promo-tile:nth-child(4){background:linear-gradient(160deg,#fff 30%,#e8f3ff)}
+.promo-tile.promo-sos{background:linear-gradient(160deg,#fff 25%,#ffe9ec);color:var(--danger-dark)}
+.promo-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.promo-art{width:70px;height:70px;right:-4px;top:-4px}
+
+/* ---------- Навигация ---------- */
+.bottom-nav{height:auto;min-height:68px;padding:6px 8px max(8px,env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(15,28,46,.05)}
+.nav-item{flex:1;min-width:0;padding:4px 0;color:var(--subtle);font-size:11px;font-weight:500;gap:3px}
+.nav-glyph{padding:4px 16px;border-radius:999px;transition:background .2s}
+.nav-item.active{color:var(--teal-dark);font-weight:600}
+.nav-item.active .nav-glyph{background:var(--teal-soft)}
+.nav-item .icon{width:22px;height:22px}
+.nav-dot{background:var(--danger);top:2px;right:10px}
+
+/* ---------- Типографика блоков ---------- */
+.page-head{margin:8px 0 20px}
+.page-head h2{font-size:26px;font-weight:700;line-height:1.2;margin:0 0 6px}
+.page-head p{font-size:15px;color:var(--muted)}
+.back{width:40px;height:40px;border-radius:12px;background:#fff!important;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2);display:grid;place-items:center;margin-bottom:14px;transition:.15s}
+.back:hover{box-shadow:inset 0 0 0 1px var(--line-strong);color:var(--ink)}
+.back .icon{width:20px;height:20px}
+.section,.sheet .section{margin-top:28px}
+.section-head{margin:0 2px 12px}
+.section-head h2{font-size:20px;font-weight:700}
+.section-head h3{font-size:17px;font-weight:700}
+.eyebrow{font-size:12px;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.text-btn{color:var(--teal-dark);font-size:14px;font-weight:600;padding:6px 8px;margin:-6px -8px;border-radius:10px}
+.text-btn:hover{background:var(--teal-soft)}
+
+/* ---------- Поверхности ---------- */
+.card,.form-card,.question-card,
+.sheet .card,.sheet .form-card,.sheet .question-card{--bg:var(--tile);background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-xs);padding:20px}
+.sheet .card .card{background:var(--tile);border-color:transparent;box-shadow:none}
+.card.empty{border-style:dashed;background:rgba(255,255,255,.6)}
+
+/* ---------- Кнопки ---------- */
+.btn{min-height:44px;padding:0 18px;border-radius:12px;font-weight:600;font-size:15px;letter-spacing:.005em;transition:background .15s,box-shadow .15s,transform .1s,color .15s}
+.btn .icon{width:18px;height:18px;stroke-width:2}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 1px 2px rgba(13,148,136,.25),inset 0 1px 0 rgba(255,255,255,.12)}
+.btn-primary:hover{background:var(--teal-dark)}
+.btn-primary:disabled,.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-secondary,.sheet .assessment-card .btn-secondary,.sheet .result-card .btn-secondary,.kb-actions .btn-secondary{background:var(--teal-soft);color:var(--teal-dark);box-shadow:none}
+.btn-secondary:hover{background:#d5efeb}
+.btn-ghost{background:#fff;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1px var(--line-strong)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:var(--danger-dark)}
+.btn-danger-soft{background:var(--danger-soft);color:var(--danger-dark)}
+
+/* ---------- Поля ---------- */
+.field label{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:8px}
+.field small{color:var(--muted);font-size:13px}
+textarea,.text-input,select{background:#fff;border:1px solid var(--line-strong);border-radius:var(--radius-sm);color:var(--ink);font-size:15px;transition:border-color .15s,box-shadow .15s}
+textarea{padding:12px 14px;line-height:1.5}
+.text-input,select{height:46px}
+textarea:hover,.text-input:hover,select:hover{border-color:#94a3b8}
+textarea:focus,.text-input:focus,select:focus{border-color:var(--teal);box-shadow:var(--ring)}
+textarea::placeholder,input::placeholder{color:var(--subtle)}
+.text-input:disabled{background:var(--tile);color:var(--muted)}
+input[type=checkbox],input[type=radio]{accent-color:var(--teal)}
+.check-row{border-radius:var(--radius-md);background:var(--danger-soft);color:var(--danger-dark);border:1px solid rgba(220,47,69,.16);font-size:14px}
+
+/* Поиск */
+.search,.search-bar,.sheet .search{height:48px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs);color:var(--subtle);padding:0 14px;transition:border-color .15s,box-shadow .15s}
+.search:focus-within,.search-bar:focus-within{border-color:var(--teal);box-shadow:var(--ring)}
+.search-bar input,.search input{font-size:15px;color:var(--ink)}
+.search-bar .icon,.search .icon{width:20px;height:20px}
+
+/* ---------- Бейджи и чипы ---------- */
+.badge{padding:4px 10px;font-size:12px;font-weight:600;line-height:1.35;border-radius:999px;font-style:normal;white-space:nowrap}
+.badge-new{background:var(--teal-soft);color:var(--teal-dark)}
+.badge-warn{background:var(--amber-soft);color:var(--amber)}
+.badge-danger{background:var(--danger-soft);color:var(--danger-dark)}
+.chip{background:var(--tile);color:var(--ink-2);font-size:13px;font-weight:500;padding:6px 12px;border:1px solid var(--line)}
+.notice{border-radius:var(--radius-md);font-size:14px;line-height:1.55;padding:14px 16px}
+.notice-neutral{background:var(--indigo-soft);color:#3730a3}
+.notice-success{background:var(--teal-soft);color:var(--teal-dark)}
+.notice .icon{width:18px;height:18px;vertical-align:-4px;margin-right:4px}
+
+/* ---------- Главная пациента ---------- */
+.search-bar{margin-top:2px}
+.locate{font-size:14px;font-weight:600;color:var(--ink-2);margin:16px 2px 12px}
+.locate .icon{fill:var(--teal)}
+.tile,.mini-tile{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs);transition:transform .2s,box-shadow .2s,border-color .2s}
+.tile:hover,.mini-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#d5dde7}
+.tile{border-radius:20px;padding:18px}
+.tile b{font-size:18px}
+.tile span{font-size:14px;color:var(--muted)}
+.tile:nth-child(1){background:linear-gradient(165deg,#fff 45%,#e9f7f5)}
+.mini-tile{border-radius:18px;min-height:100px}
+.mini-tile b{font-size:15px;font-weight:600}
+.mini-icon{background:var(--teal-soft);color:var(--teal-dark);border-radius:12px;width:40px;height:40px}
+.count{background:var(--danger);border-color:#fff}
+.pa-banner{border:1px solid #dfe3ff;background:linear-gradient(105deg,#eef0ff 0%,#e8f6f4 100%);border-radius:18px;padding:14px 16px;transition:box-shadow .2s,transform .2s}
+.pa-banner:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.pa-banner b{font-size:16px}
+.pa-banner small{font-size:13px}
+.pa-banner-icon,.pa-answer-icon,.rag-orb{background:linear-gradient(145deg,#6366f1,#0d9488);box-shadow:0 6px 16px rgba(79,70,229,.22)}
+.today-card .status-line strong{font-size:16px}
+.metric,.report-value,.sheet .metric{background:var(--tile);border-radius:14px;padding:14px 8px}
+.metric b,.report-value b{font-size:22px;font-weight:700}
+.metric span,.report-value span,.stat-card span{font-size:12px;color:var(--muted)}
+.doctor-card{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs)}
+.doctor-card span{font-size:14px}
+
+/* ---------- Формы самоотчёта и опросников ---------- */
+.form-card{padding:22px}
+.scale{gap:8px}
+.scale label{height:50px;border-radius:12px;background:#fff;border:1px solid var(--line-strong);font-size:16px;transition:.15s}
+.scale label:hover{border-color:var(--teal);color:var(--teal-dark)}
+.scale input:checked+label{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 4px 12px rgba(13,148,136,.25)}
+.scale input:focus-visible+label{box-shadow:var(--ring)}
+
+.question-card{padding:18px 18px 18px;position:relative}
+.question-card legend{float:left;width:100%;padding:0;margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.45;color:var(--ink)}
+.question-card legend+*{clear:both}
+.question-card legend span{border-radius:10px;font-size:13px;font-weight:700;background:var(--teal-soft);color:var(--teal-dark)}
+.answer-grid{margin-top:14px;gap:8px}
+.answer-grid label>span{min-height:52px;border-radius:12px;background:#fff;border:1px solid var(--line-strong);font-size:14px;font-weight:500;color:var(--ink-2);transition:.15s;padding:10px 12px}
+.answer-grid label>span:hover{border-color:var(--teal);color:var(--teal-dark)}
+.answer-grid input:checked+span{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600}
+.answer-grid input:focus-visible+span{box-shadow:var(--ring)}
+.question-card:has(input:checked) legend span{background:var(--teal);color:#fff}
+
+.assessment-card{padding:22px}
+.scale-logo{background:var(--indigo-soft);color:var(--indigo);font-size:13px;border-radius:10px}
+.score-line{background:var(--tile);border-radius:14px}
+.score-line span{font-size:14px}
+.assessment-card details{font-size:13px}
+.result-score b{font-size:76px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.result-score>span{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--teal-soft)}
+.crisis-card{background:var(--danger-soft);color:var(--danger-dark);border:1px solid rgba(220,47,69,.22);border-radius:var(--radius-md);padding:16px 18px;position:relative;padding-left:52px}
+.crisis-card::before{content:'!';position:absolute;left:16px;top:16px;width:24px;height:24px;border-radius:50%;background:var(--danger);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.crisis-card p{font-size:14px}
+
+/* ---------- Динамика ---------- */
+.trend-line{stroke:var(--teal);stroke-width:3}
+.trend-dot{stroke:var(--teal);stroke-width:3}
+.trend-chart text{font-size:10px;fill:var(--muted);font-weight:600}
+.trend-chart .axis{stroke:var(--line)}
+.chart-empty{background:var(--tile);border:1px dashed var(--line-strong);font-size:14px}
+
+/* Списки пациентов и отметок */
+.patient-card,.sheet .patient-card{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs);border-radius:16px;padding:14px 16px;transition:border-color .15s,box-shadow .15s,transform .15s}
+button.patient-card:hover{border-color:#cfd8e3;box-shadow:var(--shadow);transform:translateY(-1px)}
+.sheet .card .patient-card{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;padding:12px 2px}
+.sheet .card .patient-card:last-child{border-bottom:0}
+.patient-card h3{font-size:16px;font-weight:600}
+.patient-card p{font-size:13px}
+.patient-card>span:last-child .icon{width:18px;height:18px;color:var(--subtle)}
+
+/* ---------- Кабинет врача: главная ---------- */
+.doctor-stats{gap:10px}
+.stat-card,.sheet .stat-card{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs);border-radius:18px;min-height:92px;padding:16px}
+.stat-card b{font-size:28px;font-weight:700;letter-spacing:-.02em}
+.stat-card.alert{background:var(--amber-soft)!important;border-color:#f6dfb0;color:var(--amber)}
+.stat-art{width:48px;height:48px;right:4px;top:4px}
+.signal-banner,.sheet .signal-banner{background:#fff;border:1px solid var(--line);border-left:4px solid var(--danger);box-shadow:var(--shadow-xs);border-radius:16px}
+.signal-banner p{font-size:13px}
+.patient-filters button,.timeline-filters button,.kb-chip,.document-filters button{background:#fff;color:var(--ink-2);border:1px solid var(--line);font-size:13px;font-weight:500;padding:8px 14px;transition:.15s}
+.patient-filters button:hover,.timeline-filters button:hover,.kb-chip:hover,.document-filters button:hover{border-color:var(--line-strong)}
+.patient-filters button.active,.timeline-filters button.active,.kb-chip.active,.document-filters button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.patient-filters span,.timeline-filters span{background:rgba(100,116,139,.14);font-size:11px;font-weight:600}
+.patient-filters button.active span,.timeline-filters button.active span{background:rgba(255,255,255,.2)}
+
+.critical-alert{background:#fff;border:1px solid rgba(220,47,69,.28);border-left:5px solid var(--danger);color:var(--ink);border-radius:18px;box-shadow:0 8px 24px rgba(220,47,69,.08)}
+.critical-alert.alert-escalated{background:linear-gradient(90deg,#fff5f6,#fff);box-shadow:0 8px 28px rgba(220,47,69,.14)}
+.critical-alert h3{color:var(--danger-dark);font-size:18px}
+.critical-alert p{font-size:14px;color:var(--ink-2)}
+.critical-alert small{font-size:12px;color:var(--muted)}
+.alert-meta{font-size:11px;color:var(--danger-dark);letter-spacing:.04em}
+.alert-pulse{background:var(--danger);border-radius:12px}
+.critical-alert .btn-ghost,.critical-alert .btn-secondary{background:#fff;color:var(--danger-dark);box-shadow:inset 0 0 0 1px rgba(220,47,69,.3)}
+
+/* ---------- Карточка пациента ---------- */
+.detail-header h2{font-size:24px;font-weight:700}
+.detail-header p{font-size:14px}
+.patient-kpis>div,.sheet .patient-kpis>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 8px}
+.patient-kpis b{font-size:22px;font-weight:700}
+.patient-kpis span{font-size:12px}
+.patient-kpis>div.is-alert{background:var(--danger-soft);border-color:rgba(220,47,69,.25);color:var(--danger-dark)}
+.patient-jumpbar button{background:#fff;border:1px solid var(--line);border-radius:12px;font-size:14px;font-weight:500}
+.patient-jumpbar button:hover{border-color:var(--teal);color:var(--teal-dark)}
+.summary-row{background:var(--tile);border-radius:14px}
+.summary-row span,.summary-row p{font-size:12px}
+.summary-row.summary-alert{background:var(--danger-soft)}
+.clinical-summary-grid>div,.scenario-grid>div,.scenario-steps,.timeline-mini,.kb-patient-links button{background:var(--tile)}
+.clinical-summary-grid span,.scenario-grid span{font-size:12px}
+.clinical-summary-grid b{font-size:14px;font-weight:600}
+.timeline-mini small{font-size:12px}
+.timeline-mini b{font-size:14px;font-weight:600}
+
+.recommendation-card,.ai-summary-card,.case-assistant-card,.rag-assistant,.confirmed-therapy{background:#fff}
+.ai-summary-card{background:linear-gradient(160deg,#fff 60%,#f4f3ff)}
+.ai-summary-card:before{display:none}
+.case-assistant-card{background:linear-gradient(160deg,#fff 60%,#eef8f6)}
+.rag-assistant{background:linear-gradient(140deg,#f2f3ff 0%,#fff 45%,#eaf7f5 100%);border:1px solid #e1e4fb}
+.recommendation-action{border-radius:14px;padding:16px}
+.recommendation-title h3{font-size:15px}
+.recommendation-copy>p{font-size:14px}
+.recommendation-next{font-size:13px;background:var(--tile)}
+.recommendation-source{font-size:12px}
+.recommendation-source small{font-size:11px}
+.recommendation-summary,.recommendation-title>span{font-size:12px;padding:4px 10px}
+.evidence-pill{background:var(--tile)}
+.evidence-pill span{font-size:12px}
+.evidence-pill b{font-size:14px}
+.recommendation-footer .notice{font-size:13px}
+.recommendation-number{background:var(--tile);font-size:13px}
+
+.routing-card{border-radius:16px;background:#fff;border:1px solid var(--line)}
+.route-mandatory{background:var(--danger-soft);border-color:rgba(220,47,69,.25);color:var(--danger-dark)}
+.route-recommended{background:var(--amber-soft);border-color:#f3dba6;color:#854d0e}
+.routing-card p{font-size:14px}
+.routing-card small,.route-status{font-size:12px}
+.route-label{font-size:12px}
+
+.checkin-item{background:var(--tile);border-radius:14px}
+.checkin-item b{font-size:14px}
+.checkin-item p,.checkin-item small{font-size:12px}
+.gauge-value{border-radius:18px}
+.adherence-gauge p{font-size:13px}
+.choice-row span{background:#fff;border:1px solid var(--line-strong);font-size:15px;font-weight:600;border-radius:12px}
+.choice-row input:checked+span{background:var(--teal);border-color:var(--teal);color:#fff}
+
+.task-item{background:#fff;border:1px solid var(--line);border-radius:14px}
+.task-copy>b{font-size:15px;font-weight:600}
+.task-copy p{font-size:13px}
+.task-copy small,.task-due{font-size:12px}
+.task-category{font-size:11px;padding:3px 9px;font-weight:600}
+.task-check{border-color:var(--line-strong);border-radius:10px}
+
+.therapy-dose{background:var(--indigo-soft);color:#3730a3;font-size:14px;border-radius:14px}
+.risk-grid label{background:var(--tile);font-size:13px;padding:11px 12px;border:1px solid transparent;transition:.15s}
+.risk-grid label:hover{border-color:var(--line-strong)}
+.risk-grid label:has(input:checked){background:var(--teal-soft);border-color:rgba(13,148,136,.3)}
+.therapy-result ul{font-size:13px}
+.therapy-result small{font-size:12px}
+.decision-check span,.decision-regimen span,.decision-item>p,.decision-findings,.decision-item summary{font-size:13px}
+.decision-head time,.decision-foot small,.decision-status{font-size:12px}
+.decision-foot .btn{font-size:13px;min-height:34px}
+.confirmed-regimen b{font-size:14px}
+.confirmed-regimen small{font-size:12px}
+
+/* ---------- Лента ---------- */
+.timeline-copy,.sheet .timeline-copy{background:#fff;border:1px solid var(--line);border-radius:14px}
+.timeline-item.tone-danger .timeline-copy{background:var(--danger-soft);border-color:rgba(220,47,69,.2)}
+.timeline-marker{border-color:var(--bg);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.timeline-meta span,.timeline-meta time{font-size:12px}
+.timeline-title h3{font-size:15px;font-weight:600}
+.timeline-title i{font-size:11px;background:var(--tile)}
+.timeline-copy p{font-size:14px}
+.timeline-copy small{font-size:12px}
+.timeline-day{font-size:12px;background:var(--bg)}
+.timeline-entry-button{background:#fff;border:1px solid var(--line)}
+.timeline-entry-button small{font-size:13px}
+
+/* ---------- Чат ---------- */
+.message-thread{background:#fff;border:1px solid var(--line);border-radius:20px;background-image:radial-gradient(circle at 1px 1px,rgba(15,28,46,.05) 1px,transparent 0);background-size:18px 18px}
+.message-bubble{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs)}
+.message-row.own .message-bubble{background:var(--teal);border-color:var(--teal)}
+.message-bubble p{font-size:15px}
+.message-bubble span{font-size:11px}
+.message-form{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px}
+.message-form:focus-within{border-color:var(--teal);box-shadow:var(--ring)}
+.message-form textarea,.message-form textarea:focus{border:0;box-shadow:none!important}
+.send-button{background:var(--teal);border-radius:14px}
+.send-button:hover{background:var(--teal-dark)}
+.chat-head h2{font-size:20px}
+.chat-head p{font-size:13px}
+.message-banner{background:#fff;border:1px solid #dfe3ff;box-shadow:var(--shadow-xs)}
+
+/* ---------- Профиль ---------- */
+.profile-card,.row-card,.profile-stats>div{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs)}
+.profile-card{border-radius:20px}
+.row-card{border-radius:18px}
+.row-group h3,.kb-group h3{font-size:12px;letter-spacing:.07em;color:var(--muted)}
+.row-icon{background:var(--tile);color:var(--ink-2)}
+.list-row:hover{background:var(--tile)}
+.row-text b{font-size:15px;font-weight:600}
+.row-text small{font-size:13px}
+.profile-stats span{font-size:12px}
+.time-chip{background:var(--teal-soft)}
+.switch{background:var(--line-strong)}
+.switch:checked{background:var(--teal)}
+
+/* ---------- База знаний и ассистенты ---------- */
+.kb-card{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-xs);border-radius:18px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.kb-card:hover{transform:translateY(-1px);box-shadow:var(--shadow);border-color:#d5dde7}
+.kb-card b{font-size:16px;font-weight:600}
+.kb-card small{font-size:14px}
+.kb-source{font-size:12px}
+.kb-group h3 span{background:#fff;border:1px solid var(--line)}
+.kb-section{background:#fff;border:1px solid var(--line)}
+.kb-section.kb-tone-danger{background:var(--danger-soft);border-color:rgba(220,47,69,.2)}
+.kb-section.kb-tone-warning{background:var(--amber-soft);border-color:#f3dba6}
+.kb-table th,.kb-table td{background:var(--tile)}
+.kb-links a{background:var(--tile)}
+.kb-patient-links button{font-size:14px}
+
+.rag-status{font-size:12px;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.rag-status.is-ready{border-color:rgba(13,148,136,.3)}
+.rag-form{border:1px solid var(--line);box-shadow:var(--shadow-xs);border-radius:16px}
+.rag-form:focus-within{border-color:var(--teal);box-shadow:var(--ring)}
+.rag-form textarea,.rag-form textarea:focus{border:0;box-shadow:none!important}
+.rag-form-actions>span{font-size:12px}
+.rag-examples button,.pa-examples button,.case-question-chips button{background:#fff;border:1px solid var(--line);color:var(--ink-2);font-size:13px;font-weight:500;padding:8px 14px;border-radius:999px;transition:.15s}
+.rag-examples button:hover,.pa-examples button:hover,.case-question-chips button:hover{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-tint)}
+.rag-answer,.pa-answer{border:1px solid var(--line)}
+.rag-source summary b,.pa-source summary b{font-size:14px}
+.rag-source summary small,.pa-source summary small,.rag-answer footer,.pa-answer footer{font-size:12px}
+.rag-source>p,.pa-source>p{font-size:13px}
+.rag-source>a,.pa-source>a{font-size:13px}
+.pa-form small{font-size:12px}
+.pa-form textarea{border-color:var(--line-strong)}
+.pa-confirm-list small,.pa-clarification>small{font-size:12px}
+.ai-summary-meta span{font-size:13px;background:var(--teal-soft);color:var(--teal-dark)}
+.ai-summary-text{border-radius:16px}
+.ai-citation{background:var(--indigo-soft);color:var(--indigo)}
+
+/* ---------- Медкарта и документы ---------- */
+body .medcard-entry>button{border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-xs);border-radius:18px}
+body .medcard-tile{border:1px solid var(--line);box-shadow:var(--shadow-xs);border-radius:20px;transition:transform .2s,box-shadow .2s}
+body .medcard-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+body .medcard-tile small{font-size:13px}
+body .document-card{border:1px solid var(--line);box-shadow:var(--shadow-xs);border-radius:18px}
+body .document-copy p{font-size:13px}
+body .document-copy>small{font-size:12px;color:var(--subtle)}
+body .document-filters button{font-size:13px}
+
+/* ---------- Пустые состояния, тост ---------- */
+.empty{color:var(--muted)}
+.status-orb{background:var(--teal-soft);color:var(--teal-dark);border-radius:16px}
+.toast{background:var(--ink);border-radius:12px;font-size:14px;font-weight:500;padding:12px 18px;box-shadow:var(--shadow-lg);bottom:92px}
+
+/* ---------- Вкладки карточки пациента (layout-ui.js) ---------- */
+.cc-tabs{position:sticky;top:66px;z-index:12;display:flex;gap:4px;margin:16px 0 4px;padding:4px;border-radius:14px;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:var(--shadow-xs);overflow-x:auto;scrollbar-width:none}
+.cc-tabs::-webkit-scrollbar{display:none}
+.cc-tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:14px;font-weight:600;white-space:nowrap;transition:background .15s,color .15s}
+.cc-tab .icon{width:18px;height:18px}
+.cc-tab:hover{color:var(--ink);background:var(--tile)}
+.cc-tab.active{background:var(--ink);color:#fff}
+.cc-tab i{font-style:normal;min-width:20px;height:20px;padding:0 6px;border-radius:10px;display:inline-grid;place-items:center;font-size:11px;background:var(--danger);color:#fff}
+.cc-tab-spacer{flex:1 0 8px}
+.cc-tab.cc-tab-action{color:var(--teal-dark)}
+.cc-tab.cc-tab-action:hover{background:var(--teal-soft)}
+.cc-tabbed .patient-jumpbar{display:none}
+.cc-pane-hidden{display:none!important}
+.cc-tabbed .cc-pane-first{margin-top:16px}
+
+/* ---------- Мобильные уточнения ---------- */
+@media(max-width:759px){
+  .topbar{padding:10px 16px}
+  .page-head h2{font-size:24px}
+  .sheet{padding:4px 16px 104px}
+  .card,.form-card,.question-card,.sheet .card,.sheet .form-card,.sheet .question-card{padding:16px;border-radius:18px}
+  .cc-tabs{top:62px;margin-left:-16px;margin-right:-16px;border-radius:0;border-left:0;border-right:0}
+  .answer-grid label>span{font-size:13px}
+  .doctor-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .stat-card{padding:14px 12px}
+  .stat-art{width:40px;height:40px}
+  .critical-alert{grid-template-columns:1fr}
+  .critical-alert .route-actions,.critical-alert div:has(>.btn){flex-wrap:wrap}
+}
+@media(max-width:400px){
+  .identity-name b{font-size:16px}
+  .role-switch{padding:0 10px}
+}
+
+/* ---------- Десктоп ---------- */
+@media(min-width:760px){
+  .app-shell{grid-template-columns:248px minmax(0,1fr)}
+  .desktop-sidebar{padding:22px 14px;background:#fff;border-right:1px solid var(--line)}
+  .brand{font-size:15px;font-weight:700;line-height:1.2;margin:2px 8px 28px;letter-spacing:-.01em}
+  .brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#14b8a6,#0d9488 55%,#4f46e5);box-shadow:0 6px 16px rgba(13,148,136,.28)}
+  .side-nav{gap:2px}
+  .side-link{height:44px;border-radius:12px;padding:0 12px;font-size:15px;font-weight:500;color:var(--ink-2);transition:background .15s,color .15s}
+  .side-link .icon{width:22px;height:22px;color:var(--subtle)}
+  .side-link:hover{background:var(--tile);color:var(--ink)}
+  .side-link.active{background:var(--teal-soft);color:var(--teal-dark);font-weight:600}
+  .side-link.active .icon{color:var(--teal)}
+  .nav-count{background:var(--danger)}
+  .side-bottom{background:var(--tile);border:1px solid var(--line);color:var(--muted);font-size:12px;border-radius:14px;line-height:1.55}
+
+  .main{padding:0 32px 48px;max-width:1240px;width:100%;margin:0 auto}
+  .topbar{padding:16px 0;margin:0 0 4px}
+  .main-tint .topbar{padding-top:20px}
+  .promo-strip{padding:4px 0 20px}
+  .promo-tile{height:128px}
+  .promo-art{width:84px;height:84px}
+  .sheet{padding:4px 0 24px}
+  .tile{min-height:172px}
+  .doctor-layout{gap:24px}
+  .cc-tabs{top:74px}
+  .toast{bottom:28px}
+  .detail-grid{gap:16px}
+}
+@media(min-width:1100px){
+  .app-shell{grid-template-columns:264px minmax(0,1fr)}
+  .main{padding:0 44px 56px}
+}
+
+/* Порядок блоков во вкладке «Обзор»: сначала то, что требует действия */
+.sheet.cc-tabbed{display:flex;flex-direction:column}
+.cc-tabbed>.doctor-alert{order:1}
+.cc-tabbed>#patient-risks{order:2}
+.cc-tabbed>.recommendation-section{order:3}
+.cc-tabbed>.timeline-preview{order:4}
+.cc-tabbed>.scenario-section{order:5}
+.cc-tabbed>.cc-tabs{margin-bottom:0}
+@media(min-width:760px){.promo-tile{flex:1 1 0}}
+@media(min-width:760px){.patient-filters{flex-wrap:wrap;overflow:visible}}
+@media(max-width:759px){
+  .identity>.icon{display:none}
+  .identity-name small{white-space:nowrap;font-size:11px}
+  .identity-name b{max-width:42vw}
+}
+
+/* Поля без собственного класса (форма решения по терапии и др.) */
+.field>input:not([type=checkbox]):not([type=radio]),.decision-form input:not([type=checkbox]):not([type=radio]),.decision-form select,.decision-form textarea{width:100%;min-width:0;height:46px;padding:0 14px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink);font:inherit;font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s}
+.decision-form textarea{height:auto;padding:12px 14px}
+.field>input:not([type=checkbox]):not([type=radio]):focus,.decision-form input:focus,.decision-form select:focus,.decision-form textarea:focus{border-color:var(--teal);box-shadow:var(--ring)}
+.decision-form-grid>*,.form-grid>*{min-width:0}
+
+/* Рекламный блок в боковой панели пациента (promo-ui.js) */
+.desktop-sidebar{overflow-y:auto;scrollbar-width:none}
+.desktop-sidebar::-webkit-scrollbar{display:none}
+.promo-card{position:relative;margin:auto 0 12px;padding:12px 14px 14px;border-radius:16px;border:1px solid #e4dcf3;background:linear-gradient(170deg,#fff 40%,#f4effb);display:flex;flex-direction:column;gap:2px}
+.promo-card+.side-bottom{margin-top:0}
+.promo-label{position:absolute;top:10px;left:12px;z-index:1;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid var(--line);color:var(--muted);font-size:11px;font-weight:500}
+.promo-pack{display:block;width:100%;height:auto;max-height:150px;object-fit:contain;padding:18px 4px 0;margin:0 0 6px;pointer-events:none;user-select:none}
+.promo-card b{font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.promo-card b sup{font-size:10px;font-weight:500}
+.promo-card>span:not(.promo-label){font-size:13px;color:var(--ink-2)}
+.promo-card .promo-maker{display:flex;align-items:center;gap:6px;margin-top:6px;padding-top:8px;border-top:1px solid #ebe4f5;font-weight:600;color:#1f6f8b}
+.promo-maker .icon{width:16px;height:16px;flex:0 0 16px}
+.promo-card small{margin-top:6px;font-size:11px;line-height:1.4;color:var(--muted)}
+@media(max-height:820px){.promo-pack{max-height:96px}.promo-card small{font-size:10.5px}}

@@ -1,0 +1,17 @@
+{
+  "release": "kb_v2.3-patient-prototype",
+  "built_at": "2026-10-26",
+  "policy": {
+    "audience": [
+      "patient"
+    ],
+    "prototype_only": true,
+    "production_approved": false,
+    "automatic_diagnosis": false,
+    "automatic_treatment_changes": false
+  },
+  "counts": {
+    "sources.jsonl": 4,
+    "entities/chunks.jsonl": 9
+  }
+}

@@ -7,7 +7,7 @@ state.scenario=null;
 state.clinicalProfile=null;
 state.timeline=[];
 state.therapyDecisions=[];
-state.recommendations=null;
+state.recommendations=null;state.aiSummaries=[];
 
 async function loadState(){
   state.loading=true;state.error=null;render();
@@ -19,11 +19,11 @@ async function loadState(){
       state.assessments=data.assessments;state.plan=data.plan;state.patients=[];
       state.checkins=data.checkins||[];state.adherence=data.adherence||{};
       state.routingSignals=data.routing_signals||[];state.tasks=data.tasks||[];state.unreadMessages=data.unread_messages||0;
-      state.profile=data.profile||null;state.scenario=data.scenario||null;state.clinicalProfile=data.clinical_profile||null;state.timeline=data.timeline||[];state.therapyDecisions=data.therapy_decisions||[];state.recommendations=data.recommendations||null;
+      state.profile=data.profile||null;state.scenario=data.scenario||null;state.clinicalProfile=data.clinical_profile||null;state.timeline=data.timeline||[];state.therapyDecisions=data.therapy_decisions||[];state.recommendations=data.recommendations||null;state.aiSummaries=data.ai_summaries||[];
     }else{
       state.patients=data.patients;state.alerts=data.alerts||[];state.alerting=data.alerting||null;state.patient=null;state.currentPatient=null;
       state.reports=[];state.assessments=[];state.plan=null;state.checkins=[];
-      state.adherence={};state.routingSignals=[];state.tasks=[];state.unreadMessages=0;state.scenario=null;state.clinicalProfile=null;state.timeline=[];state.therapyDecisions=[];state.recommendations=null;
+      state.adherence={};state.routingSignals=[];state.tasks=[];state.unreadMessages=0;state.scenario=null;state.clinicalProfile=null;state.timeline=[];state.therapyDecisions=[];state.recommendations=null;state.aiSummaries=[];
     }
     state.loading=false;render();
   }catch(error){state.loading=false;state.error=error.message;render()}
@@ -35,7 +35,7 @@ async function openPatient(id){
     const data=await api(`/api/patients/${id}`);
     state.currentPatient=data.patient;state.reports=data.reports;state.assessments=data.assessments;
     state.plan=data.plan;state.checkins=data.checkins||[];state.adherence=data.adherence||{};
-    state.routingSignals=data.routing_signals||[];state.tasks=data.tasks||[];state.currentProfile=data.profile||null;state.scenario=data.scenario||null;state.clinicalProfile=data.clinical_profile||null;state.timeline=data.timeline||[];state.therapyDecisions=data.therapy_decisions||[];state.recommendations=data.recommendations||null;
+    state.routingSignals=data.routing_signals||[];state.tasks=data.tasks||[];state.currentProfile=data.profile||null;state.scenario=data.scenario||null;state.clinicalProfile=data.clinical_profile||null;state.timeline=data.timeline||[];state.therapyDecisions=data.therapy_decisions||[];state.recommendations=data.recommendations||null;state.aiSummaries=data.ai_summaries||[];
     await api(`/api/patients/${id}/review`,{method:'POST'});
     state.loading=false;render();
   }catch(error){state.loading=false;state.error=error.message;render()}

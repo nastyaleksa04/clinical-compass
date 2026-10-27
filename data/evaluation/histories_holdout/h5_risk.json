@@ -1,0 +1,26 @@
+{
+ "age": 19,
+ "sex": "female",
+ "pregnancy_status": "unknown",
+ "self_harm_concern": true,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F32.2"
+ ],
+ "scales": {},
+ "medications": [
+  "флуоксетин"
+ ],
+ "therapy_factors": [
+  "serotonergic_drugs",
+  "cyp2d6_inhibitors"
+ ],
+ "text": {
+  "complaints": [
+   "тревога"
+  ],
+  "working_hypothesis": [
+   "F32.2"
+  ]
+ }
+}

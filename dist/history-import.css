@@ -1,0 +1,38 @@
+/* =====================  Импорт истории болезни (history-import-ui.js)  ===================== */
+.history-import-section{display:flex;flex-direction:column;gap:14px}
+.hi-intro{margin:0;font-size:14px;color:var(--ink-2);line-height:1.45}
+.hi-input{display:flex;flex-direction:column;gap:10px}
+.hi-input textarea{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line-strong);font:inherit;font-size:14px;resize:vertical;background:#fff}
+.hi-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.hi-file{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:12px;border:1.5px dashed var(--line-strong);font-size:14px;color:var(--ink-2);cursor:pointer;max-width:100%;overflow:hidden}
+.hi-file:hover{border-color:#7c6fd6;color:#3f3592}
+.hi-file .icon{width:18px;height:18px;flex:0 0 18px}
+.hi-file span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hi-file input{display:none}
+.hi-result{display:flex;flex-direction:column;gap:12px;padding-top:14px;border-top:1px solid var(--line)}
+.hi-result h3{margin:6px 0 0;font-size:15px}
+.hi-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;font-size:12px;color:var(--muted)}
+.hi-meta span{display:inline-flex;align-items:center;gap:6px}
+.hi-meta .icon{width:14px;height:14px;color:#1f7a55}
+.hi-chips,.hi-meds,.hi-factors{display:flex;flex-wrap:wrap;gap:6px}
+.hi-chips span{padding:5px 12px;border-radius:999px;background:#eeedfd;color:#3f3592;font-size:13px;font-weight:600}
+.hi-flags{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.hi-flag{padding:10px 12px;border-radius:14px;background:var(--tile);display:flex;flex-direction:column;gap:3px}
+.hi-flag b{font-size:14px}
+.hi-flag small{font-size:12px;color:var(--ink-2);line-height:1.35}
+.hi-flag.tone-danger{background:#fdecec;border:1px solid #f2b8b8}
+.hi-flag.tone-danger b{color:#a12a2a}
+.hi-fields{display:grid;gap:8px}
+.hi-field{display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.hi-field input{width:18px;height:18px;margin-top:2px}
+.hi-field b{display:block;font-size:13px}
+.hi-field small{display:block;font-size:13px;color:var(--ink-2);line-height:1.4;max-height:5.6em;overflow:auto}
+.hi-meds span{padding:6px 12px;border-radius:12px;background:var(--tile);font-size:13px}
+.hi-meds span.is-stopped{opacity:.65;text-decoration:line-through}
+.hi-meds b{text-transform:capitalize}
+.hi-factors span{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--amber-soft,#fff5e0);color:var(--amber,#a15c00);font-size:13px;font-weight:600}
+.hi-factors .icon{width:14px;height:14px}
+.hi-actions{display:flex;flex-wrap:wrap;gap:10px}
+.hi-actions .btn{flex:1 1 260px;justify-content:center}
+.hi-note{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:12px;color:var(--muted)}
+.hi-note .icon{width:15px;height:15px;flex:0 0 15px}

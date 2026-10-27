@@ -1,0 +1,40 @@
+{
+ "age": 45,
+ "sex": "male",
+ "pregnancy_status": "not_applicable",
+ "self_harm_concern": true,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F32.1"
+ ],
+ "scales": {
+  "phq9": 17
+ },
+ "medications": [
+  "феназепам"
+ ],
+ "therapy_factors": [
+  "sedatives",
+  "alcohol",
+  "egfr_below_60"
+ ],
+ "text": {
+  "history": [
+   "3 месяцев",
+   "развода"
+  ],
+  "allergies": [
+   "Не отягощ"
+  ],
+  "working_hypothesis": [
+   "F32.1"
+  ],
+  "symptom_duration": [
+   "3 месяцев"
+  ],
+  "current_medications": [
+   "феназепам",
+   "1 мг"
+  ]
+ }
+}

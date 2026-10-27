@@ -4,6 +4,13 @@ set -euo pipefail
 PROJECT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJECT_DIR"
 
+if [[ -f .env ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env
+  set +a
+fi
+
 if ! command -v python3 >/dev/null 2>&1; then
   echo "Ошибка: нужен Python 3. Установите: sudo apt update && sudo apt install python3 python3-venv"
   exit 1

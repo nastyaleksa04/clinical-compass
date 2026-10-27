@@ -1,0 +1,30 @@
+{
+ "birth_date": "1990-02-14",
+ "sex": "female",
+ "pregnancy_status": "unknown",
+ "self_harm_concern": false,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F43.2"
+ ],
+ "scales": {},
+ "medications": [],
+ "therapy_factors": [
+  "breastfeeding",
+  "driving"
+ ],
+ "text": {
+  "visit_reason": [
+   "расстройство адаптации"
+  ],
+  "complaints": [
+   "плаксивость"
+  ],
+  "working_hypothesis": [
+   "F43.2"
+  ],
+  "symptom_duration": [
+   "2 месяцев"
+  ]
+ }
+}

@@ -9,7 +9,9 @@ const TIMELINE_META={
   task:{icon:'calendar',label:'План'},
   routing:{icon:'warning',label:'Безопасность'},
   alert:{icon:'bell',label:'Безопасность'},
-  clinical:{icon:'stethoscope',label:'Записи врача'}
+  clinical:{icon:'stethoscope',label:'Записи врача'},
+  ai_summary:{icon:'sparkles',label:'AI-сводка'}
+  ,assistant_intake:{icon:'message',label:'Уточнение пациента'}
 };
 const TIMELINE_FILTERS=[
   ['all','Все'],

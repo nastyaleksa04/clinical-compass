@@ -1,0 +1,45 @@
+{
+ "age": 61,
+ "sex": "female",
+ "pregnancy_status": "unknown",
+ "self_harm_concern": true,
+ "psychosis_signs": false,
+ "icd_codes": [
+  "F33.1"
+ ],
+ "scales": {
+  "phq9": 19
+ },
+ "medications": [
+  "кветиапин"
+ ],
+ "therapy_factors": [
+  "hepatic_impairment",
+  "sedatives"
+ ],
+ "text": {
+  "complaints": [
+   "тоска",
+   "бессонница"
+  ],
+  "history": [
+   "2 месяцев"
+  ],
+  "allergies": [
+   "Не отягощ"
+  ],
+  "working_hypothesis": [
+   "F33.1"
+  ],
+  "symptom_duration": [
+   "2 месяцев"
+  ],
+  "current_medications": [
+   "кветиапин",
+   "25 мг"
+  ],
+  "comorbidities": [
+   "цирроз"
+  ]
+ }
+}

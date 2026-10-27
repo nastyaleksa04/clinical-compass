@@ -1,0 +1,57 @@
+{
+  "bundle": "data/knowledge/kb_v2_2_complete_doctor",
+  "counts": {
+    "sources.jsonl": 28,
+    "entities/chunks.jsonl": 247,
+    "entities/conditions.jsonl": 81,
+    "entities/eval_cases.jsonl": 20,
+    "entities/medication_cards.jsonl": 25,
+    "entities/medications.jsonl": 60,
+    "entities/patient_model.jsonl": 28,
+    "entities/safety_rules.jsonl": 72,
+    "entities/scales.jsonl": 32
+  },
+  "summary": {
+    "issues": 3,
+    "errors": 0,
+    "blockers": 1,
+    "warnings": 29
+  },
+  "readiness": {
+    "doctor_search_experimental": true,
+    "patient_rag": false,
+    "clinical_automation": false
+  },
+  "issues": [
+    {
+      "severity": "blocker",
+      "code": "missing_patient_corpus",
+      "message": "No chunks are approved and scoped for patient retrieval",
+      "count": 1,
+      "samples": []
+    },
+    {
+      "severity": "warning",
+      "code": "missing_raw_source",
+      "message": "Source registry points to raw files absent from the bundle",
+      "count": 2,
+      "samples": [
+        "ru_cr_gad_adult_457_3",
+        "ru_cr_depression_adult_301_3"
+      ]
+    },
+    {
+      "severity": "warning",
+      "code": "unknown_license",
+      "message": "Source reuse license is missing or unknown",
+      "count": 27,
+      "samples": [
+        "ru_cr_gad_adult_457_3",
+        "ru_cr_depression_adult_301_3",
+        "ru_grls_agomelatine",
+        "ru_grls_alimemazine",
+        "ru_grls_bromdihydrochlorphenylbenzodiazepine"
+      ]
+    }
+  ]
+}

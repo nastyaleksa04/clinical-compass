@@ -1,0 +1,30 @@
+{
+  "release": "kb_v2.2-complete-doctor",
+  "built_at": "2026-10-26",
+  "source_bundle": "/mnt/d/datacon_2026/clinical-compass/data/knowledge/kb_v2.zip",
+  "review_basis": "physician_prepared_bundle_confirmed_by_project_owner",
+  "policy": {
+    "audience": [
+      "doctor"
+    ],
+    "patient_access": false,
+    "retrieval_coverage": "complete",
+    "automatic_treatment_decisions": false
+  },
+  "counts": {
+    "sources.jsonl": 28,
+    "entities/conditions.jsonl": 81,
+    "entities/medications.jsonl": 60,
+    "entities/medication_cards.jsonl": 25,
+    "entities/safety_rules.jsonl": 72,
+    "entities/scales.jsonl": 32,
+    "entities/eval_cases.jsonl": 20,
+    "entities/patient_model.jsonl": 28,
+    "entities/chunks.jsonl": 247
+  },
+  "automation_exclusion_count": 42,
+  "automation_exclusion_reasons": {
+    "missing_verified_label": 18,
+    "trigger_requires_manual_formalization": 24
+  }
+}

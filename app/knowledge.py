@@ -69,8 +69,8 @@ def _medication_article(medication: dict[str, Any], version: str) -> dict[str, A
             {"title": "Чек-лист", "text": "Индивидуальные факторы проверяются в карточке пациента, блок «Справочник терапии». Результат проверки не является назначением."},
         ],
         "links": [
-            {"label": "Инструкция по применению", "url": medication["sources"]["instruction"]},
-            {"label": "Клинические рекомендации", "url": medication["sources"]["clinical_guideline"]},
+            {"label": "Инструкция в ГРЛС (" + medication["registration"].split(",")[0] + ")", "url": medication["sources"]["instruction"]},
+            {"label": "Рубрикатор КР Минздрава: ГТР, ID 457", "url": medication["sources"]["clinical_guideline"]},
         ],
         "tags": [medication["name"], "противопоказания", "взаимодействия"],
         "system": True, "author": "Справочник терапии", "updated_at": version,

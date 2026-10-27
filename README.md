@@ -430,6 +430,8 @@ Codespace засыпает после 30 минут без активности 
 |---|---|
 | `OPENROUTER_API_KEY` | ответы ИИ-помощника Нейрона; без ключа остальное работает |
 | `OPENROUTER_SITE_URL` | адрес стенда, например `https://clinical-compass.amvera.io` |
+| `OPENROUTER_MODEL` | основная модель (по умолчанию `qwen/qwen3.8-flash`) |
+| `OPENROUTER_FALLBACK_MODELS` | запасные модели через запятую; при ошибках 429/502/503 запрос сначала повторяется дважды с паузой, а OpenRouter переключается на запасные модели |
 | `CLINICAL_COMPASS_DEMO_RESET_AT` | время ночного сброса, по умолчанию `04:00` |
 
 Локальная проверка образа: `docker build -t clinical-compass . && docker run -p 8000:8000 -v cc-data:/data clinical-compass`.

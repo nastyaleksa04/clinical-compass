@@ -5,7 +5,8 @@ from __future__ import annotations
 import json
 import os
 import re
-from dataclasses import dataclass
+import time
+from dataclasses import dataclass, field
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -14,6 +15,9 @@ from app.rag.retrieval import KnowledgeIndex, doctor_index
 
 DEFAULT_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_MODEL = "qwen/qwen3.8-flash"
+# Временные ошибки провайдера (лимит запросов, перегрузка) — повторяем с паузой
+RETRY_STATUSES = {429, 502, 503}
+RETRY_DELAYS = (2.0, 5.0)
 CITATION_RE = re.compile(r"\[(\d+)\]")
 
 SYSTEM_PROMPT = """Ты — справочный ассистент врача-психиатра в прототипе «Клинический компас».
@@ -44,6 +48,7 @@ class OpenRouterSettings:
     timeout_seconds: float
     site_url: str
     app_name: str
+    fallback_models: tuple[str, ...] = field(default=())
 
     @classmethod
     def from_env(cls) -> "OpenRouterSettings":
@@ -59,6 +64,9 @@ class OpenRouterSettings:
             timeout_seconds=timeout,
             site_url=os.getenv("OPENROUTER_SITE_URL", "http://localhost:8000").strip(),
             app_name=os.getenv("OPENROUTER_APP_NAME", "Clinical Compass").strip(),
+            fallback_models=tuple(
+                item.strip() for item in os.getenv("OPENROUTER_FALLBACK_MODELS", "").split(",") if item.strip()
+            ),
         )
 
 
@@ -78,6 +86,9 @@ class OpenRouterClient:
             "max_tokens": max_tokens,
             "reasoning": {"effort": "low", "exclude": True},
         }
+        if self.settings.fallback_models:
+            # OpenRouter сам переключится на следующую модель, если основная недоступна
+            base_payload["models"] = [self.settings.model, *self.settings.fallback_models]
         last_data: dict[str, Any] = {}
         for attempt in range(2):
             payload = dict(base_payload)
@@ -115,6 +126,16 @@ class OpenRouterClient:
         raise OpenRouterError(f"OpenRouter дважды вернул пустой финальный ответ{suffix}")
 
     def _post(self, payload: dict[str, Any]) -> dict[str, Any]:
+        for delay in RETRY_DELAYS:
+            try:
+                return self._post_once(payload)
+            except OpenRouterError as error:
+                if getattr(error, "status", None) not in RETRY_STATUSES:
+                    raise
+                time.sleep(delay)
+        return self._post_once(payload)
+
+    def _post_once(self, payload: dict[str, Any]) -> dict[str, Any]:
         headers = {
             "Authorization": f"Bearer {self.settings.api_key}",
             "Content-Type": "application/json",
@@ -142,7 +163,9 @@ class OpenRouterClient:
             except (ValueError, UnicodeDecodeError, AttributeError):
                 pass
             suffix = f": {detail}" if detail else ""
-            raise OpenRouterError(f"OpenRouter вернул HTTP {error.code}{suffix}") from error
+            failure = OpenRouterError(f"OpenRouter вернул HTTP {error.code}{suffix}")
+            failure.status = error.code
+            raise failure from error
         except URLError as error:
             raise OpenRouterError("Не удалось подключиться к OpenRouter") from error
         except (TimeoutError, json.JSONDecodeError) as error:

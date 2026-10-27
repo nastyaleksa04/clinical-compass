@@ -127,6 +127,50 @@ class RAGAssistantTests(unittest.TestCase):
         self.assertEqual("low", first_payload["reasoning"]["effort"])
         self.assertFalse(retry_payload["reasoning"]["enabled"])
 
+    def test_rate_limit_is_retried_and_fallback_models_are_sent(self):
+        import io
+        from urllib.error import HTTPError
+
+        settings = OpenRouterSettings(
+            api_key="test-key", model="qwen/test", base_url="https://example.test", timeout_seconds=10,
+            site_url="", app_name="test", fallback_models=("backup/model",),
+        )
+
+        class Response:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                return False
+
+            def read(self):
+                return json.dumps({"choices": [{"message": {"content": "Ответ [1]."}, "finish_reason": "stop"}]}).encode("utf-8")
+
+        limited = HTTPError("https://example.test", 429, "Too Many Requests", {},
+                            io.BytesIO(b'{"error": {"message": "Provider returned error"}}'))
+        with patch("app.rag.assistant.urlopen", side_effect=[limited, Response()]) as mocked, \
+                patch("app.rag.assistant.time.sleep") as sleep:
+            result = OpenRouterClient(settings).complete([{"role": "user", "content": "Вопрос"}])
+        self.assertEqual("Ответ [1].", result["content"])
+        self.assertEqual(2, mocked.call_count)
+        sleep.assert_called_once()
+        payload = json.loads(mocked.call_args_list[0].args[0].data.decode("utf-8"))
+        self.assertEqual(["qwen/test", "backup/model"], payload["models"])
+
+    def test_persistent_rate_limit_reports_error_after_retries(self):
+        import io
+        from urllib.error import HTTPError
+
+        from app.rag.assistant import OpenRouterError
+
+        settings = OpenRouterSettings(api_key="k", model="m", base_url="https://example.test", timeout_seconds=10, site_url="", app_name="t")
+        errors = [HTTPError("https://example.test", 429, "Too Many", {}, io.BytesIO(b"{}")) for _ in range(3)]
+        with patch("app.rag.assistant.urlopen", side_effect=errors) as mocked, patch("app.rag.assistant.time.sleep"):
+            with self.assertRaises(OpenRouterError) as raised:
+                OpenRouterClient(settings).complete([])
+        self.assertIn("429", str(raised.exception))
+        self.assertEqual(3, mocked.call_count)
+
     def test_endpoints_are_doctor_only_and_errors_are_sanitized(self):
         with TestClient(app) as client:
             self.assertEqual(client.get("/api/rag/status", headers=PATIENT).status_code, 403)

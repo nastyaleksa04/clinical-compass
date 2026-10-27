@@ -405,6 +405,16 @@ python scripts/evaluate_history_import.py --dir data/evaluation/histories_holdou
 
 Время разбора — 1–6 мс на текст и около 200 мс на PDF. Честная оценка на новых данных — столбец «первый прогон»: правила дорабатывались на основном наборе, а после первого прогона отложенный набор тоже стал обучающим. Для следующей независимой проверки нужны новые истории, лучше обезличенные реальные. Тесты — `tests/test_history_import.py`.
 
+## Демо-стенд в GitHub Codespaces
+
+В репозитории есть `.devcontainer`: GitHub сам ставит зависимости и шрифты и запускает сервер со свежими демо-данными.
+
+1. На странице репозитория: **Code → Codespaces → Create codespace on main**. Первый запуск — 2–4 минуты.
+2. Внизу редактора вкладка **Ports** → строка порта **8000** → правой кнопкой **Port Visibility → Public**.
+3. Ссылка из колонки **Forwarded Address** (`https://…-8000.app.github.dev`) открывается у любого человека.
+
+Codespace засыпает после 30 минут без активности (можно увеличить до 240 минут: GitHub → Settings → Codespaces → Default idle timeout). Перед показом откройте его снова: сервер перезапустится сам, ссылка та же. Ключ OpenRouter: GitHub → Settings → Codespaces → **Secrets** → `OPENROUTER_API_KEY` с доступом к этому репозиторию. Лог сервера — `/tmp/clinical-compass.log`.
+
 ## Публичный демо-стенд (Amvera или любой хостинг с Docker)
 
 В репозитории есть `Dockerfile` (Python 3.11, шрифты DejaVu для кириллицы в PDF) и `amvera.yml` (порт 8000, постоянное хранилище `/data`). Внутри контейнера:

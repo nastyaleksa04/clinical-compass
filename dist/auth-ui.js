@@ -20,6 +20,7 @@ function authView(){
     <section class="auth-card">
       <div class="auth-brand"><span class="brand-mark">${icon('heart')}</span><div><b>Клинический компас</b><small>Цифровой ассистент врача и пациента</small></div></div>
       <h1>Вход</h1>
+      <div class="auth-demo-warning">${icon('info')}<span><b>Демо-версия.</b> Все пациенты и данные синтетические. Не вводите реальные персональные и медицинские данные — их увидят другие тестирующие. Каждую ночь данные возвращаются к исходным.</span></div>
       ${window.ccAuth.expired?`<div class="notice notice-warn">${icon('clock')} Сессия истекла. Войдите снова.</div>`:''}
       <form id="auth-form" class="auth-form" autocomplete="on">
         <label for="auth-login">Логин</label>

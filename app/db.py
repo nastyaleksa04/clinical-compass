@@ -17,7 +17,7 @@ def now_iso() -> str:
 
 @contextmanager
 def connection() -> Iterator[sqlite3.Connection]:
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     database = sqlite3.connect(DB_PATH)
     database.row_factory = sqlite3.Row
     database.execute("PRAGMA foreign_keys = ON")

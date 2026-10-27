@@ -452,3 +452,41 @@ def seed() -> bool:
         for signal in drug_survey.signals(item["report"]):
             db.create_routing_signal(item["patient_id"], signal, "drug_report", item["report"]["id"])
     return True
+
+
+def reset_database() -> None:
+    """Очищает все таблицы и заново заполняет демо-стенд: пользователи, сценарии, живые данные «на сегодня»."""
+    from app import auth, knowledge, scenarios
+
+    with db.connection() as database:
+        database.execute("PRAGMA foreign_keys = OFF")
+        tables = [row[0] for row in database.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")]
+        for table in tables:
+            database.execute(f'DELETE FROM "{table}"')
+        if database.execute("SELECT 1 FROM sqlite_master WHERE name = 'sqlite_sequence'").fetchone():
+            database.execute("DELETE FROM sqlite_sequence")
+    db.init_db()
+    scenarios.seed()
+    auth.seed_demo_users()
+    scenarios.seed_clinical_profiles()
+    knowledge.seed_templates()
+    seed()
+
+
+def seconds_until(clock: str, now: datetime | None = None) -> float:
+    """Секунды до ближайшего наступления времени «ЧЧ:ММ» по Москве."""
+    hour, minute = (int(part) for part in clock.split(":"))
+    local = (now or datetime.now(timezone.utc)) + LOCAL
+    target = local.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    if target <= local:
+        target += timedelta(days=1)
+    return (target - local).total_seconds()
+
+
+async def reset_daily(clock: str) -> None:
+    """Фоновая задача демо-стенда: каждый день в заданное время база возвращается к исходному состоянию."""
+    import asyncio
+
+    while True:
+        await asyncio.sleep(seconds_until(clock))
+        await asyncio.to_thread(reset_database)

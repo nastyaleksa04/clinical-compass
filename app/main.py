@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import binascii
 import os
@@ -47,7 +48,12 @@ async def lifespan(_: FastAPI):
     if os.environ.get("CLINICAL_COMPASS_DEMO_DATA") == "1":
         demo_life.seed()
     scale_engine.catalogue()
+    # На публичном демо-стенде база каждую ночь возвращается к исходным живым данным (например, "04:00" по Москве)
+    reset_at = os.environ.get("CLINICAL_COMPASS_DEMO_RESET_AT", "").strip()
+    task = asyncio.create_task(demo_life.reset_daily(reset_at)) if reset_at else None
     yield
+    if task:
+        task.cancel()
 
 
 app = FastAPI(

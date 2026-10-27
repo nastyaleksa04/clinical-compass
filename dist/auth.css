@@ -23,6 +23,8 @@
 .auth-brand b{display:block;font-size:16px}
 .auth-brand small{font-size:12px;color:var(--muted)}
 .auth-card h1{margin:4px 0 0;font-size:28px}
+.auth-demo-warning{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:#fff7e0;border:1px solid #f1d58f;font-size:12.5px;line-height:1.4;color:#5c4400}
+.auth-demo-warning .icon{width:16px;height:16px;flex:0 0 16px;margin-top:1px;color:#a15c00}
 .auth-form{display:flex;flex-direction:column;gap:8px}
 .auth-form label{font-size:14px;font-weight:600;margin-top:4px}
 .auth-form input{height:48px;padding:0 14px;border-radius:14px;border:1.5px solid var(--line-strong);font:inherit;font-size:16px;background:#fff}

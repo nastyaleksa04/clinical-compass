@@ -67,6 +67,20 @@ class DemoLifeTests(unittest.TestCase):
             other = 2 if patient_id != 2 else 1
             self.assertEqual(403, self.client.get(f"/api/patients/{other}/messages", headers=headers).status_code)
 
+    def test_reset_restores_fresh_demo_state(self):
+        fresh = (len(db.get_reports(1, 500)), len(db.get_messages(1)), len(db.get_drug_reports(1)))
+        db.create_report(1, {"mood": 1, "anxiety": 5, "sleep": 1, "comment": "тест", "urgent": True})
+        db.create_message(1, "patient", "сообщение тестировщика")
+        demo_life.reset_database()
+        self.assertEqual(fresh, (len(db.get_reports(1, 500)), len(db.get_messages(1)), len(db.get_drug_reports(1))))
+        self.assertEqual(200, self.client.post("/api/auth/login", json={"login": "doctor", "password": "doctor2026"}).status_code)
+        self.assertEqual(75, neuron.state(1)["score"])
+
+    def test_reset_time_is_moscow_clock(self):
+        now = datetime(2026, 10, 27, 0, 30, tzinfo=timezone.utc)  # 03:30 по Москве
+        self.assertEqual(30 * 60, demo_life.seconds_until("04:00", now))
+        self.assertEqual(23.5 * 3600, demo_life.seconds_until("03:00", now))
+
     def test_drug_survey_signal_created_for_bothersome_effect(self):
         signals = db.get_routing_signals(4, include_unconfirmed=True)
         self.assertIn("drug_bothersome_effect", {item["reason_code"] for item in signals})

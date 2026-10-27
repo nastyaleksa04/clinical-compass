@@ -405,6 +405,18 @@ python scripts/evaluate_history_import.py --dir data/evaluation/histories_holdou
 
 Время разбора — 1–6 мс на текст и около 200 мс на PDF. Честная оценка на новых данных — столбец «первый прогон»: правила дорабатывались на основном наборе, а после первого прогона отложенный набор тоже стал обучающим. Для следующей независимой проверки нужны новые истории, лучше обезличенные реальные. Тесты — `tests/test_history_import.py`.
 
+## Демо-стенд на своём сервере (Timeweb Cloud или любой VPS)
+
+Папка `deploy/`: `docker-compose.yml` (приложение + Caddy с бесплатным HTTPS от Let's Encrypt) и `setup.sh`. На чистом Ubuntu 22.04/24.04:
+
+```bash
+sudo apt-get update && sudo apt-get install -y git
+git clone https://x-access-token:<токен>@github.com/nastyaleksa04/clinical-compass.git /opt/clinical-compass
+sudo GITHUB_TOKEN=<токен> bash /opt/clinical-compass/deploy/setup.sh
+```
+
+Скрипт ставит Docker, собирает приложение и запускает его по адресу `https://<IP>.sslip.io` (или по своему домену: `DOMAIN=compass.example.ru`). База хранится в томе `cc-data` и переживает обновления, каждую ночь в 04:00 по Москве демо-данные возвращаются к исходным. Ключ OpenRouter — в `/opt/clinical-compass/deploy/app.env`, затем `docker compose up -d` в папке `deploy`. Обновить стенд после push в GitHub — снова запустить `setup.sh`.
+
 ## Демо-стенд в GitHub Codespaces
 
 В репозитории есть `.devcontainer`: GitHub сам ставит зависимости и шрифты и запускает сервер со свежими демо-данными.

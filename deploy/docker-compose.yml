@@ -1,0 +1,28 @@
+# Демо-стенд на своём сервере (Timeweb Cloud или любой VPS с Docker): приложение + Caddy с бесплатным HTTPS.
+# Запуск и обновление: sudo bash deploy/setup.sh
+services:
+  app:
+    build: ..
+    restart: unless-stopped
+    env_file: app.env              # ключ OpenRouter и прочие секреты; создаётся setup.sh
+    volumes:
+      - cc-data:/data              # база переживает перезапуск и обновление
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on: [app]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  cc-data:
+  caddy-data:
+  caddy-config:

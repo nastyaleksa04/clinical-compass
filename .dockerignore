@@ -6,3 +6,5 @@
 data/*.db
 data/*.db-*
 data/backups
+deploy/.env
+deploy/app.env
